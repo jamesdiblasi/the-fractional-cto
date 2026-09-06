@@ -1,0 +1,64 @@
+name: Deploy to Azure App Service
+
+# Builds the standalone Next.js server and deploys it to an App Service web
+# app. Mirrors the leadnet-dashboard deploy, minus the migration job: this
+# site has no database.
+#
+# PREREQUISITES, outside this file:
+#   * An App Service (Linux, Node 22) named in `app-name` below, with startup
+#     command `node server.js`.
+#   * Repository secret AZURE_CREDENTIALS: the JSON output of
+#     `az ad sp create-for-rbac --sdk-auth` scoped to the web app's resource
+#     group.
+#   * Runtime settings on the web app (see .env.example): SITE_URL,
+#     BOOKING_URL, CONTACT_EMAIL, MAILJET_*, the TIER_* switches.
+#   * Optional repository variables for the build-time analytics IDs.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint and typecheck
+        run: |
+          npm run lint
+          npm run typecheck
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+          NEXT_PUBLIC_PLAUSIBLE_DOMAIN: ${{ vars.NEXT_PUBLIC_PLAUSIBLE_DOMAIN }}
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: the-fractional-cto
+          # `output: 'standalone'` emits a self-contained server. The build
+          # script copies .next/static and public/ in alongside it, so this
+          # folder is the whole deployable app.
+          package: .next/standalone

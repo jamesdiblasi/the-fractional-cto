@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   The Fractional CTO theme, expressed as the shadcn/ui token contract.
+
+   Dark-only by design: near-black ground with a slight blue cast, elevated
+   card surfaces, and a single warm amber accent so calls to action read as
+   the one bright thing on the page. Components never name a hex value, so
+   re-pointing a token here restyles the whole site.
+
+   Triples are unwrapped (`32 95% 58%`, not `hsl(...)`) because Tailwind
+   composes them as `hsl(var(--primary) / <alpha>)` for opacity modifiers.
+   ========================================================================== */
+@layer base {
+  :root,
+  .dark {
+    --background: 220 20% 5%;
+    --foreground: 210 20% 94%;
+
+    --card: 220 18% 8%;
+    --card-foreground: 210 20% 94%;
+
+    --primary: 32 95% 58%;
+    --primary-foreground: 24 40% 8%;
+
+    --secondary: 220 14% 13%;
+    --secondary-foreground: 210 20% 94%;
+
+    --muted: 220 14% 12%;
+    --muted-foreground: 215 12% 65%;
+
+    --accent: 220 14% 16%;
+    --accent-foreground: 210 20% 94%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 71% 45%;
+
+    --border: 220 12% 16%;
+    --input: 220 12% 20%;
+    --ring: 32 95% 58%;
+
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.35);
+  }
+}
+
+@layer utilities {
+  /* Faint engineering grid behind the hero. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.6) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
