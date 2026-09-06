@@ -92,23 +92,6 @@ build-time variables; in the workflow they come from repository variables.
 4. Push to `main`. The workflow lints, typechecks, builds and deploys
    `.next/standalone`.
 
-## Moving this into its own repository
-
-This folder was built inside `leadnet-dashboard` because the session could
-not create a repository. It is self-contained. To split it out:
-
-```bash
-git clone git@github.com:jamesdiblasi/leadnet-dashboard.git
-cd leadnet-dashboard
-git subtree split --prefix=sites/the-fractional-cto -b the-fractional-cto-only
-# create the empty repo on GitHub, then:
-git push git@github.com:jamesdiblasi/the-fractional-cto.git the-fractional-cto-only:main
-```
-
-The `.github/workflows/deploy.yml` in this folder only runs once the folder
-is the root of its own repository. Delete `sites/the-fractional-cto` from
-`leadnet-dashboard` afterwards.
-
 ## Before launch
 
 - Replace the stats in `lib/content.ts`.
