@@ -1,18 +1,19 @@
 name: Deploy to Azure App Service
 
-# Builds the standalone Next.js server and deploys it to an App Service web
-# app. Mirrors the leadnet-dashboard deploy, minus the migration job: this
-# site has no database.
+# Builds the standalone Next.js server and deploys it to the App Service web
+# app `the-fractional-cto` (resource group leadgen, plan leadnet-plan).
 #
-# PREREQUISITES, outside this file:
-#   * An App Service (Linux, Node 22) named in `app-name` below, with startup
-#     command `node server.js`.
-#   * Repository secret AZURE_CREDENTIALS: the JSON output of
-#     `az ad sp create-for-rbac --sdk-auth` scoped to the web app's resource
-#     group.
-#   * Runtime settings on the web app (see .env.example): SITE_URL,
-#     BOOKING_URL, CONTACT_EMAIL, MAILJET_*, the TIER_* switches.
-#   * Optional repository variables for the build-time analytics IDs.
+# Authentication is the OIDC federated credential that Azure's Deployment
+# Center created when the repository was connected: the three
+# AZUREAPPSERVICE_* repository secrets below are its client, tenant and
+# subscription IDs, not passwords. `id-token: write` lets the job request the
+# token. Deployment Center's own generated workflow was replaced by this one
+# because it deployed the raw repository, and the app's startup command
+# (`node server.js`) expects the standalone output instead.
+#
+# Runtime settings (SITE_URL, BOOKING_URL, MAILJET_*, the TIER_* switches)
+# live in the web app's application settings, see .env.example. The analytics
+# IDs are build-time and come from repository variables.
 
 on:
   push:
@@ -27,6 +28,9 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     name: Build and Deploy
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -52,12 +56,15 @@ jobs:
       - name: Azure login
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2348BC9EBC3F4B3C913A91962CC8E912 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7200B959B7E24E2480597986E4B6B87C }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_570CC1063AA04D74A0E0FD5C27AA97F8 }}
 
       - name: Deploy to App Service
         uses: azure/webapps-deploy@v3
         with:
           app-name: the-fractional-cto
+          slot-name: Production
           # `output: 'standalone'` emits a self-contained server. The build
           # script copies .next/static and public/ in alongside it, so this
           # folder is the whole deployable app.

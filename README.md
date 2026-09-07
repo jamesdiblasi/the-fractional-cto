@@ -92,9 +92,10 @@ https://the-fractional-cto.azurewebsites.net.
 
 Every push to `main` runs `.github/workflows/deploy.yml`, which lints,
 typechecks, builds and deploys `.next/standalone`. It authenticates with the
-`AZURE_CREDENTIALS` repository secret (service principal JSON). Runtime
-settings from `.env.example` live in the web app's application settings and
-take effect on restart, no rebuild needed.
+OIDC federated credential Azure's Deployment Center created (the three
+`AZUREAPPSERVICE_*` repository secrets). Runtime settings from
+`.env.example` live in the web app's application settings and take effect on
+restart, no rebuild needed.
 
 ## Before launch
 
