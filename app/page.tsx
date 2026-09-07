@@ -83,12 +83,8 @@ export default function HomePage() {
         <Founder />
         {site.leadMagnetEnabled && <LeadMagnet />}
         <Faq />
-        <Booking today={today} />
-        <Contact
-          bookingUrl={site.bookingUrl}
-          contactEmail={site.contactEmail}
-          formEnabled={site.contactFormEnabled}
-        />
+        <Booking today={today} contactEmail={site.contactEmail} />
+        <Contact formEnabled={site.contactFormEnabled} />
       </main>
       <Footer siteName={site.siteName} contactEmail={site.contactEmail} />
       <script

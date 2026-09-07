@@ -29,7 +29,7 @@ export function Footer({
             <a href={`mailto:${contactEmail}`} className="hover:underline">
               {contactEmail}
             </a>
-            <a href="#contact" className="hover:underline">Book a call</a>
+            <a href="#booking" className="hover:underline">Book a call</a>
             <a href="/privacy" className="hover:underline">Privacy</a>
           </nav>
         </div>

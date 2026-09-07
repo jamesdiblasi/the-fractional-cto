@@ -29,11 +29,11 @@ export const howItWorks = {
   steps: [
     {
       title: 'Subscribe',
-      body: 'Pick a plan. We start within a week with a short technical snapshot of where you are.',
+      body: 'Choose your plan. We start within a week with a short technical snapshot of where you are at today.',
     },
     {
       title: 'Ask',
-      body: 'Send anything technical. A quote to sanity-check, a hire to interview, a roadmap to write, a board note to draft.',
+      body: 'Give us your hardest problems to solve. Send through anything technical, business, process or otherwise. A quote to sanity-check, a hire to interview, a roadmap to write, a board paper to draft.',
     },
     {
       title: 'Done',
@@ -130,8 +130,8 @@ export const founder = {
    * of this section.
    */
   paragraphs: [
-    'I was employee number one at a Microsoft consultancy and I was still there at the exit. Fifteen years of building the thing, not presenting about it: hiring, shipping, and making the calls that get expensive when you get them wrong.',
-    'Along the way I advised CIOs and CTOs across banking, insurance, professional services and consumer brands. Same problems as yours, more zeros.',
+    'I joined a Microsoft consultancy when it was barely a company and helped grow it until it sold. More than a decade of building the thing, not presenting about it: hiring, shipping, and making the calls that get expensive when you get them wrong.',
+    'Along the way I have helped CIOs and CTOs solve their hardest problems, across banking, insurance, professional services and consumer brands. Same problems as yours, more zeros.',
     'Bring me your hardest problem, business or technical or somewhere in between. Together we work out where the answer actually sits: in the technology, in the process, or in the people. Usually it is all three.',
   ],
   /** Path under public/. Compressed from the original shoot; see README. */
@@ -183,17 +183,16 @@ export const faqs = {
 export const booking = {
   title: 'Find a time that works.',
   /** Set in the accent italic, on its own line. */
-  titleAccent: '(mine are fairly flexible)',
+  titleAccent: '(I can work around you)',
   body: 'Fifteen minutes on a call, no slides and no pitch. Bring the decision that is currently stuck and we will talk it through.',
   note: 'Times are shown in your local timezone.',
   clockLabel: 'Time format',
   noDayLabel: 'Pick a day',
 };
 
-export const finalCta = {
-  title: 'See if The Fractional CTO is the right fit for you.',
-  body: 'Fifteen minutes, no pitch. You leave with a clearer picture of where your technology stands, whether or not we work together.',
-  cta: 'Book a 15-min intro call',
+export const enquiry = {
+  title: 'Rather put it in writing?',
+  body: 'Send a few lines about where the business is and what is getting in the way. I read every one myself and reply within a business day.',
 };
 
 export const footer = {

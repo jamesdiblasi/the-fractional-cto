@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { ArrowRight, Loader2, CheckCircle2 } from 'lucide-react';
-import { Button, LinkButton } from '@/components/ui/button';
+import { Loader2, CheckCircle2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { Input, Label, Textarea, Select } from '@/components/ui/input';
-import { finalCta } from '@/lib/content';
-import { isExternal } from '@/lib/config';
+import { enquiry } from '@/lib/content';
 
 type State =
   | { status: 'idle' }
@@ -14,21 +13,12 @@ type State =
   | { status: 'error'; message: string };
 
 /**
- * The closing call to action, Designjoy style: one big line, one big
- * button, and the email address. The form sits underneath for people who
- * would rather write than book.
+ * The enquiry form, for people who would rather write than pick a time. The
+ * booking section above owns the calendar and the email address, so there is
+ * exactly one place on the page to book a slot.
  */
-export function Contact({
-  bookingUrl,
-  contactEmail,
-  formEnabled,
-}: {
-  bookingUrl: string;
-  contactEmail: string;
-  formEnabled: boolean;
-}) {
+export function Contact({ formEnabled }: { formEnabled: boolean }) {
   const [state, setState] = useState<State>({ status: 'idle' });
-  const hasBooking = isExternal(bookingUrl);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -60,44 +50,17 @@ export function Contact({
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="display text-balance text-display-lg font-bold">
-            {finalCta.title}
+            {enquiry.title}
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            {finalCta.body}
+            {enquiry.body}
           </p>
-          <div className="mt-9 flex flex-col items-center gap-4">
-            {hasBooking ? (
-              <LinkButton
-                href={bookingUrl}
-                size="xl"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {finalCta.cta}
-                <ArrowRight className="h-4 w-4" />
-              </LinkButton>
-            ) : (
-              <LinkButton href="#enquire" size="xl">
-                {finalCta.cta}
-                <ArrowRight className="h-4 w-4" />
-              </LinkButton>
-            )}
-            <p className="text-sm text-muted-foreground">
-              Prefer email?{' '}
-              <a
-                href={`mailto:${contactEmail}`}
-                className="font-semibold text-foreground underline underline-offset-4"
-              >
-                {contactEmail}
-              </a>
-            </p>
-          </div>
         </div>
 
         {formEnabled && (
           <div
             id="enquire"
-            className="mx-auto mt-16 max-w-2xl scroll-mt-24 rounded-2xl border border-border p-6 sm:p-10"
+            className="mx-auto mt-12 max-w-2xl scroll-mt-24 rounded-2xl border border-border p-6 sm:p-10"
           >
             {state.status === 'done' ? (
               <div className="py-10 text-center">
@@ -109,9 +72,6 @@ export function Contact({
               </div>
             ) : (
               <form onSubmit={onSubmit} className="space-y-5" noValidate>
-                <p className="display-sm text-2xl font-bold">
-                  Or send a few lines about your situation.
-                </p>
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
                     <Label htmlFor="c-name">Name</Label>

@@ -39,7 +39,13 @@ const SLOTS = [
 type Clock = '12h' | '24h';
 
 /** `today` is an ISO date (yyyy-mm-dd) from the server, so both renders agree. */
-export function Booking({ today }: { today: string }) {
+export function Booking({
+  today,
+  contactEmail,
+}: {
+  today: string;
+  contactEmail: string;
+}) {
   const [y, m, d] = today.split('-').map(Number);
   const base = useMemo(() => new Date(y, m - 1, d), [y, m, d]);
 
@@ -93,7 +99,16 @@ export function Booking({ today }: { today: string }) {
           <p className="mt-7 max-w-md text-lg leading-relaxed text-white/65">
             {booking.body}
           </p>
-          <p className="mt-8 text-sm text-white/45">{booking.note}</p>
+          <p className="mt-8 text-[15px] text-white/60">
+            Prefer email?{' '}
+            <a
+              href={`mailto:${contactEmail}`}
+              className="font-semibold text-white underline underline-offset-4"
+            >
+              {contactEmail}
+            </a>
+          </p>
+          <p className="mt-4 text-sm text-white/45">{booking.note}</p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">

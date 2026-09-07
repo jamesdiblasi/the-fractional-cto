@@ -190,7 +190,7 @@ export function getSiteConfig(): SiteConfig {
       env.SITE_TAGLINE,
       'Senior technical leadership for growing businesses, one flat monthly fee. Pause or cancel anytime.',
     ),
-    bookingUrl: str(env.BOOKING_URL, '#contact'),
+    bookingUrl: str(env.BOOKING_URL, '#booking'),
     contactEmail: str(env.CONTACT_EMAIL, 'hello@thefractionalcto.com.au'),
     currency: str(env.CURRENCY, 'AUD'),
     tiers: (['advisor', 'fractional', 'embedded'] as TierKey[]).map(readTier),
