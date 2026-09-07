@@ -34,7 +34,7 @@ export const howItWorks = {
     },
     {
       title: 'Ask',
-      body: 'Send anything technical. A vendor to vet, a hire to interview, a roadmap to write, a board note to draft.',
+      body: 'Send anything technical. A quote to sanity-check, a hire to interview, a roadmap to write, a board note to draft.',
     },
     {
       title: 'Done',
