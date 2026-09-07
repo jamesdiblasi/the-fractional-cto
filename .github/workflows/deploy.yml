@@ -69,3 +69,20 @@ jobs:
           # script copies .next/static and public/ in alongside it, so this
           # folder is the whole deployable app.
           package: .next/standalone
+
+      - name: Smoke check
+        # A deploy that lands but does not serve is a failure, not a success.
+        # App Service restarts the container after a deploy, so allow a couple
+        # of minutes of 503 before calling it.
+        run: |
+          url="https://the-fractional-cto.azurewebsites.net/"
+          for i in $(seq 1 24); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$url" || echo 000)
+            echo "attempt $i: $code"
+            if [ "$code" = "200" ]; then
+              curl -s "$url" | grep -q "The Fractional CTO" && exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::$url did not return 200 with the site body within two minutes."
+          exit 1
