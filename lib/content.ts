@@ -133,11 +133,10 @@ export const founder = {
   paragraphs: [
     'I was employee number one at a Microsoft consultancy and I was still there at the exit. Fifteen years of building the thing, not presenting about it: hiring, shipping, and making the calls that get expensive when you get them wrong.',
     'Along the way I advised CIOs and CTOs across banking, insurance, professional services and consumer brands. Same problems as yours, more zeros.',
-    'My goal is simple: be the person you call before you make an expensive decision, and be quiet the rest of the month.',
+    'Bring me your hardest problem, business or technical or somewhere in between. Together we work out where the answer actually sits: in the technology, in the process, or in the people. Usually it is all three.',
   ],
   /** Path under public/. Compressed from the original shoot; see README. */
   photo: '/founder.webp',
-  location: 'Australia. Working remotely with clients everywhere.',
 };
 
 export const leadMagnet = {

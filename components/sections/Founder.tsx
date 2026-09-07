@@ -1,4 +1,3 @@
-import { MapPin } from 'lucide-react';
 import { Section, Eyebrow } from '@/components/Section';
 import { emphasise } from '@/components/Emphasis';
 import { founder } from '@/lib/content';
@@ -32,10 +31,6 @@ export function Founder() {
           <p className="mt-7 text-[15px] font-semibold">
             {founder.name}
             <span className="font-normal text-muted-foreground">, {founder.title}</span>
-          </p>
-          <p className="mt-2 inline-flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4 text-primary" />
-            {founder.location}
           </p>
         </div>
       </div>
