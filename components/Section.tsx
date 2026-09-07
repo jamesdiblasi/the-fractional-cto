@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { emphasise } from '@/components/Emphasis';
 
 interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   id?: string;
@@ -8,6 +9,12 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   intro?: string;
   /** Centre the header, the way Designjoy sets most section titles. */
   centered?: boolean;
+  /**
+   * `muted` renders the section as a band cut on the logo's slash angle (see
+   * .edge-slash in globals.css), which is what separates it from its
+   * neighbours. The extra vertical padding makes room for the cut corners.
+   * Keep muted sections apart; two in a row cannot both keep their edges.
+   */
   tone?: 'default' | 'muted';
 }
 
@@ -27,7 +34,7 @@ export function Section({
       id={id}
       className={cn(
         'scroll-mt-24 py-24 sm:py-32',
-        tone === 'muted' && 'bg-muted',
+        tone === 'muted' && 'edge-slash bg-muted py-32 sm:py-40',
         className,
       )}
       {...rest}
@@ -43,7 +50,7 @@ export function Section({
             {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
             {title && (
               <h2 className="display text-balance text-display-lg font-bold">
-                {title}
+                {emphasise(title)}
               </h2>
             )}
             {intro && (

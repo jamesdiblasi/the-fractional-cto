@@ -15,7 +15,6 @@ export function Benefits() {
   return (
     <Section
       id="benefits"
-      tone="muted"
       title={benefits.title}
       intro={benefits.intro}
     >

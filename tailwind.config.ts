@@ -53,6 +53,14 @@ const config: Config = {
         sm: 'calc(var(--radius) - 14px)',
       },
       fontFamily: {
+        /** The italic accent face, used a word or two at a time. */
+        accent: [
+          'Instrument Serif',
+          'ui-serif',
+          'Georgia',
+          'Times New Roman',
+          'serif',
+        ],
         sans: [
           'Figtree',
           'ui-sans-serif',

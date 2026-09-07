@@ -51,8 +51,9 @@ export default function RootLayout({
   return (
     <html lang="en-AU">
       <head>
-        {/* Figtree, linked at runtime rather than bundled so builds never
-            depend on reaching Google Fonts. The system stack covers the swap. */}
+        {/* Figtree, plus Instrument Serif for the italic accent words. Linked
+            at runtime rather than bundled so builds never depend on reaching
+            Google Fonts. The system stacks cover the swap. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -63,7 +64,7 @@ export default function RootLayout({
             the root layout wraps every page, so the font loads everywhere. */}
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
           rel="stylesheet"
         />
       </head>

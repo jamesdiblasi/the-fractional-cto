@@ -1,8 +1,9 @@
 import { cn } from '@/lib/utils';
 
 /**
- * Wordmark: a small square mark beside the name. Pure text and SVG so it
- * renders identically in the nav, footer and Open Graph image.
+ * Wordmark: a small square mark beside the name, set in the same italic serif
+ * as the accent words in the headlines. Pure text and SVG so it renders
+ * identically in the nav and footer. (The Open Graph image draws its own.)
  */
 export function Logo({
   name,
@@ -14,7 +15,9 @@ export function Logo({
   return (
     <span className={cn('inline-flex items-center gap-2.5', className)}>
       <LogoMark className="h-7 w-7" />
-      <span className="display-sm text-[17px] font-bold">{name}</span>
+      <span className="font-accent text-[24px] italic leading-none tracking-[-0.01em]">
+        {name}
+      </span>
     </span>
   );
 }

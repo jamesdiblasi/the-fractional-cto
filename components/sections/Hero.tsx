@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import { LinkButton } from '@/components/ui/button';
 import { Pill } from '@/components/Section';
+import { emphasise } from '@/components/Emphasis';
 import { hero, founder } from '@/lib/content';
 import { isExternal } from '@/lib/config';
 
@@ -18,7 +19,7 @@ export function Hero({ bookingUrl }: { bookingUrl: string }) {
             {hero.pill}
           </Pill>
           <h1 className="display text-balance text-display-xl font-bold">
-            {hero.headline}
+            {emphasise(hero.headline)}
           </h1>
           <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-[21px]">
             {hero.subheadline}
@@ -41,26 +42,26 @@ export function Hero({ bookingUrl }: { bookingUrl: string }) {
 }
 
 /**
- * The founder photo, cut out on a blue glow. The image is expected to be a
- * transparent cutout (PNG or WebP) so the glow reads as behind the person.
- * Until a real photo lands, public/founder-placeholder.svg stands in.
+ * The founder photo. The shot carries its own blue glow behind the person, so
+ * it sits in a rounded frame rather than on the CSS hero glow a transparent
+ * cutout would need. On large screens it aligns to the top of the grid rather
+ * than the centre, so the negative margin cancels the section's lg:pt-24
+ * exactly and the image meets the bottom edge of the nav.
  */
 function FounderCutout() {
   return (
-    <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-      <div
-        className="hero-glow absolute left-1/2 top-1/2 h-[85%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        aria-hidden
-      />
-      <div className="relative">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={founder.photo}
-          alt={`${founder.firstName}, ${founder.title}`}
-          width={880}
-          height={880}
-          className="relative z-10 mx-auto w-full max-w-[520px]"
-        />
+    <div className="relative mx-auto w-full max-w-md lg:-mt-24 lg:max-w-none lg:self-start">
+      <div className="relative mx-auto w-full max-w-[520px]">
+        <div className="overflow-hidden rounded-3xl">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={founder.photo}
+            alt={`${founder.firstName}, ${founder.title}`}
+            width={833}
+            height={1145}
+            className="w-full"
+          />
+        </div>
         <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full border border-border bg-background/90 px-4 py-2 text-sm font-semibold shadow-sm backdrop-blur">
           {hero.photoCaption}: {founder.firstName}
         </div>

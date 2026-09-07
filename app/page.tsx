@@ -10,6 +10,7 @@ import { Pricing } from '@/components/sections/Pricing';
 import { Founder } from '@/components/sections/Founder';
 import { LeadMagnet } from '@/components/sections/LeadMagnet';
 import { Faq } from '@/components/sections/Faq';
+import { Booking } from '@/components/sections/Booking';
 import { Contact } from '@/components/sections/Contact';
 import { Footer } from '@/components/sections/Footer';
 
@@ -22,6 +23,11 @@ export const dynamic = 'force-dynamic';
 
 export default function HomePage() {
   const site = getSiteConfig();
+  // Resolved server-side so the booking calendar renders the same on both
+  // sides of hydration, and lands on the right day for an Australian visitor.
+  const today = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Australia/Melbourne',
+  }).format(new Date());
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -77,6 +83,7 @@ export default function HomePage() {
         <Founder />
         {site.leadMagnetEnabled && <LeadMagnet />}
         <Faq />
+        <Booking today={today} />
         <Contact
           bookingUrl={site.bookingUrl}
           contactEmail={site.contactEmail}

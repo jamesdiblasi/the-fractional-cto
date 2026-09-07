@@ -1,10 +1,12 @@
 import { Section } from '@/components/Section';
+import { PercentStep } from '@/components/Shapes';
 import { howItWorks } from '@/lib/content';
 
 export function HowItWorks() {
   return (
     <Section
       id="how-it-works"
+      tone="muted"
       title={howItWorks.title}
       intro={howItWorks.intro}
     >
@@ -14,9 +16,7 @@ export function HowItWorks() {
             key={s.title}
             className="rounded-2xl bg-muted p-8 sm:p-10"
           >
-            <span className="display inline-flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-lg font-bold text-secondary-foreground">
-              {i + 1}
-            </span>
+            <PercentStep n={i + 1} />
             <h3 className="display-sm mt-8 text-display-md font-bold">
               {s.title}
             </h3>

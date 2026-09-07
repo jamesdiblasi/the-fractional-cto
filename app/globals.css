@@ -79,6 +79,42 @@
   .display-sm {
     letter-spacing: -0.025em;
   }
+  /*
+   * Fraction bars. Tonal sections are cut on the logo's slash: the top edge
+   * rises left to right, the bottom edge runs parallel, so the band sits on
+   * the page like the bar in a fraction. The rise follows the viewport so the
+   * angle stays roughly constant from phone to desktop.
+   */
+  .edge-slash,
+  .edge-slash-top {
+    --slash: clamp(2rem, 4vw, 4.5rem);
+  }
+  .edge-slash {
+    clip-path: polygon(
+      0 var(--slash),
+      100% 0,
+      100% calc(100% - var(--slash)),
+      0 100%
+    );
+  }
+  .edge-slash-top {
+    clip-path: polygon(0 var(--slash), 100% 0, 100% 100%, 0 100%);
+  }
+  /* A quiet scrollbar for lists inside dark panels. */
+  .scroll-quiet {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(0 0% 100% / 0.2) transparent;
+  }
+  .scroll-quiet::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scroll-quiet::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scroll-quiet::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: hsl(0 0% 100% / 0.2);
+  }
   /* The hero glow: one soft blue blob behind the founder photo. */
   .hero-glow {
     background: radial-gradient(

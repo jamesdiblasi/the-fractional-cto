@@ -1,15 +1,18 @@
 /**
  * Copy that is not an on/off switch. Edit freely.
  *
- * Voice: bold, short, plain. No emoji. Say the thing, then stop.
- * Anything marked PLACEHOLDER is waiting on real detail from the owner.
+ * Voice: bold, short, plain. No emoji. No contractions. Say the thing, then
+ * stop. Anything marked PLACEHOLDER is waiting on real detail from the owner.
+ *
+ * *Asterisks* around a phrase in a headline set it in the italic serif. See
+ * components/Emphasis.tsx. A word or two per headline, no more.
  */
 
 export const hero = {
   pill: 'Pause or cancel anytime',
-  headline: 'A CTO subscription for growing businesses.',
+  headline: 'A CTO *subscription* for growing businesses.',
   subheadline:
-    'Senior technical leadership, one flat monthly fee. The right calls on product, people and platform, without the full-time hire.',
+    'The Fractional CTO replaces unreliable contractors and expensive agencies for one flat monthly fee, with technical decisions delivered so fast you will never go back.',
   primaryCta: 'Book a 15-min intro call',
   secondaryCta: 'See pricing',
   /** Small caption on the founder photo. Uses founder.firstName. */
@@ -21,7 +24,7 @@ export const logoRow = {
 };
 
 export const howItWorks = {
-  title: 'One subscription. Every technical decision handled.',
+  title: 'One subscription. Every technical decision *handled*.',
   intro:
     'No agencies to manage, no recruiter fees, no six-month hire. Subscribe, send what you need, get it done.',
   steps: [
@@ -96,7 +99,7 @@ export const services = {
 };
 
 export const pricing = {
-  title: 'One subscription, no surprises.',
+  title: 'One subscription, *no surprises*.',
   intro:
     'Retainers are monthly and pause with a month of notice. Fixed-scope work is quoted before it starts. All prices in Australian dollars.',
   featuredLabel: 'Most popular',
@@ -119,17 +122,21 @@ export const pricing = {
 export const founder = {
   eyebrow: 'Meet your CTO',
   firstName: 'James',
-  /** PLACEHOLDER. Replace with your full name. */
-  name: 'James Your-Surname',
+  name: 'James Di Blasi',
   title: 'Founder and principal, The Fractional CTO',
-  headline: 'Hey, I am James. I have sat in the CTO chair, not just advised it.',
-  /** PLACEHOLDER paragraphs. Replace with your own words. */
+  headline: 'Hey, I am James. I have *sat in the CTO chair*, not just advised it.',
+  /**
+   * Still to land: the consultancy by name, and one number (team size, exit,
+   * a programme cost cut). An unnamed firm and no figures is the weakest part
+   * of this section.
+   */
   paragraphs: [
-    'PLACEHOLDER: Two or three sentences on your background. Where you have led engineering, the kinds of businesses you have worked with, and the outcomes you are proudest of.',
-    'PLACEHOLDER: One sentence on how you like to work, so a founder reading this knows what a week with you feels like.',
+    'I was employee number one at a Microsoft consultancy and I was still there at the exit. Fifteen years of building the thing, not presenting about it: hiring, shipping, and making the calls that get expensive when you get them wrong.',
+    'Along the way I advised CIOs and CTOs across banking, insurance, professional services and consumer brands. Same problems as yours, more zeros.',
+    'My goal is simple: be the person you call before you make an expensive decision, and be quiet the rest of the month.',
   ],
-  /** Path under public/. Replace with a real cutout photo, transparent PNG ideally. */
-  photo: '/founder-placeholder.svg',
+  /** Path under public/. Compressed from the original shoot; see README. */
+  photo: '/founder.webp',
   location: 'Australia. Working remotely with clients everywhere.',
 };
 
@@ -173,6 +180,16 @@ export const faqs = {
       a: 'It is most of my clients. Everything I write and say is in plain English, and there are no silly questions.',
     },
   ],
+};
+
+export const booking = {
+  title: 'Find a time that works.',
+  /** Set in the accent italic, on its own line. */
+  titleAccent: '(mine are fairly flexible)',
+  body: 'Fifteen minutes on a call, no slides and no pitch. Bring the decision that is currently stuck and we will talk it through.',
+  note: 'Times are shown in your local timezone.',
+  clockLabel: 'Time format',
+  noDayLabel: 'Pick a day',
 };
 
 export const finalCta = {

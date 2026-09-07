@@ -10,33 +10,35 @@ export function Footer({
 }) {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-border">
-      <div className="container grid gap-10 py-14 md:grid-cols-[1fr_auto_auto] md:gap-16">
-        <div className="max-w-sm">
-          <Logo name={siteName} />
-          <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-            {footer.blurb}
-          </p>
+    <footer className="mt-8">
+      <div className="edge-slash-top bg-muted pb-4 pt-16 sm:pt-20">
+        <div className="container grid gap-10 py-14 md:grid-cols-[1fr_auto_auto] md:gap-16">
+          <div className="max-w-sm">
+            <Logo name={siteName} />
+            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+              {footer.blurb}
+            </p>
+          </div>
+          <nav className="flex flex-col gap-2.5 text-[15px]" aria-label="Footer">
+            <a href="#how-it-works" className="hover:underline">How it works</a>
+            <a href="#services" className="hover:underline">Services</a>
+            <a href="#pricing" className="hover:underline">Pricing</a>
+            <a href="#faq" className="hover:underline">FAQ</a>
+          </nav>
+          <nav className="flex flex-col gap-2.5 text-[15px]" aria-label="Contact">
+            <a href={`mailto:${contactEmail}`} className="hover:underline">
+              {contactEmail}
+            </a>
+            <a href="#contact" className="hover:underline">Book a call</a>
+            <a href="/privacy" className="hover:underline">Privacy</a>
+          </nav>
         </div>
-        <nav className="flex flex-col gap-2.5 text-[15px]" aria-label="Footer">
-          <a href="#how-it-works" className="hover:underline">How it works</a>
-          <a href="#services" className="hover:underline">Services</a>
-          <a href="#pricing" className="hover:underline">Pricing</a>
-          <a href="#faq" className="hover:underline">FAQ</a>
-        </nav>
-        <nav className="flex flex-col gap-2.5 text-[15px]" aria-label="Contact">
-          <a href={`mailto:${contactEmail}`} className="hover:underline">
-            {contactEmail}
-          </a>
-          <a href="#contact" className="hover:underline">Book a call</a>
-          <a href="/privacy" className="hover:underline">Privacy</a>
-        </nav>
-      </div>
-      <div className="container flex flex-col gap-2 border-t border-border py-6 text-sm text-muted-foreground sm:flex-row sm:justify-between">
-        <span>
-          &copy; {year} {siteName}. All rights reserved.
-        </span>
-        <span>{footer.location}</span>
+        <div className="container flex flex-col gap-2 border-t border-border py-6 text-sm text-muted-foreground sm:flex-row sm:justify-between">
+          <span>
+            &copy; {year} {siteName}. All rights reserved.
+          </span>
+          <span>{footer.location}</span>
+        </div>
       </div>
     </footer>
   );

@@ -3,7 +3,12 @@ import { services } from '@/lib/content';
 
 export function Services() {
   return (
-    <Section id="services" title={services.title} intro={services.intro}>
+    <Section
+      id="services"
+      tone="muted"
+      title={services.title}
+      intro={services.intro}
+    >
       <ol className="mx-auto max-w-4xl divide-y divide-border border-y border-border">
         {services.items.map((s, i) => (
           <li

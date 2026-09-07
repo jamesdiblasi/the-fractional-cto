@@ -5,7 +5,7 @@ import { faqs } from '@/lib/content';
 /** Native <details>, so it works without JavaScript and needs no client code. */
 export function Faq() {
   return (
-    <Section id="faq" title={faqs.title}>
+    <Section id="faq" tone="muted" title={faqs.title}>
       <div className="mx-auto max-w-3xl divide-y divide-border border-y border-border">
         {faqs.items.map((f) => (
           <details key={f.q} className="group py-6">

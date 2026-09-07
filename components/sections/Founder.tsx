@@ -1,5 +1,6 @@
 import { MapPin } from 'lucide-react';
 import { Section, Eyebrow } from '@/components/Section';
+import { emphasise } from '@/components/Emphasis';
 import { founder } from '@/lib/content';
 
 export function Founder() {
@@ -21,7 +22,7 @@ export function Founder() {
         <div>
           <Eyebrow>{founder.eyebrow}</Eyebrow>
           <h2 className="display text-balance text-display-lg font-bold">
-            {founder.headline}
+            {emphasise(founder.headline)}
           </h2>
           <div className="mt-7 space-y-4 text-lg leading-relaxed text-muted-foreground">
             {founder.paragraphs.map((p, i) => (

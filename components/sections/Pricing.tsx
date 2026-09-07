@@ -1,5 +1,6 @@
 import { Check, ArrowRight } from 'lucide-react';
 import { Section } from '@/components/Section';
+import { GlowBlob } from '@/components/Shapes';
 import { LinkButton } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
@@ -30,7 +31,13 @@ export function Pricing({ site }: { site: SiteConfig }) {
     : {};
 
   return (
-    <Section id="pricing" title={pricing.title} intro={pricing.intro}>
+    <Section
+      id="pricing"
+      title={pricing.title}
+      intro={pricing.intro}
+      className="relative isolate overflow-hidden"
+    >
+      <GlowBlob className="left-1/2 top-0 h-[320px] w-[740px] -translate-x-1/2 opacity-60" />
       {featured && (
         <div
           className={cn(
