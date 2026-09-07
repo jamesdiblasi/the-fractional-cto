@@ -162,7 +162,7 @@ function Price({ tier, currency, large }: { tier: Tier; currency: string; large?
 
 function FeaturedCard({ tier, currency, bookingUrl, linkProps }: CardProps) {
   return (
-    <article className="relative flex flex-col rounded-2xl bg-muted p-8 sm:p-10">
+    <article className="relative flex flex-col rounded-2xl border border-border/60 bg-muted p-8 sm:p-10">
       <div className="flex items-center justify-between gap-4">
         <h3 className="display-sm text-3xl font-bold">{tier.name}</h3>
         <span className="rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-foreground">

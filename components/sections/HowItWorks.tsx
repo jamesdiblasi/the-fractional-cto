@@ -14,7 +14,7 @@ export function HowItWorks() {
         {howItWorks.steps.map((s, i) => (
           <li
             key={s.title}
-            className="rounded-2xl bg-muted p-8 sm:p-10"
+            className="rounded-2xl border border-border/60 bg-background p-8 sm:p-10"
           >
             <PercentStep n={i + 1} />
             <h3 className="display-sm mt-8 text-display-md font-bold">

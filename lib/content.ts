@@ -9,7 +9,6 @@
  */
 
 export const hero = {
-  pill: 'Pause or cancel anytime',
   headline: 'A CTO *subscription* for growing businesses.',
   subheadline:
     'The Fractional CTO replaces unreliable contractors and expensive agencies for one flat monthly fee, with technical decisions delivered so fast you will never go back.',

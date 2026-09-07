@@ -30,8 +30,9 @@
     --secondary: 0 0% 4%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Warm off-white panels for tinted sections. */
-    --muted: 30 14% 96%;
+    /* Warm off-white panels for tinted sections. Kept close to white so the
+       bands separate the page without becoming blocks of colour. */
+    --muted: 30 9% 97.5%;
     --muted-foreground: 30 4% 42%;
 
     --accent: 30 14% 93%;

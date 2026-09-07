@@ -1,6 +1,5 @@
 import { ArrowRight } from 'lucide-react';
 import { LinkButton } from '@/components/ui/button';
-import { Pill } from '@/components/Section';
 import { emphasise } from '@/components/Emphasis';
 import { hero, founder } from '@/lib/content';
 import { isExternal } from '@/lib/config';
@@ -14,10 +13,6 @@ export function Hero({ bookingUrl }: { bookingUrl: string }) {
     <section id="top" className="relative overflow-hidden">
       <div className="container grid items-center gap-12 pb-20 pt-14 sm:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8 lg:pb-28 lg:pt-24">
         <div className="animate-fade-up">
-          <Pill className="mb-7">
-            <span className="h-2 w-2 rounded-full bg-primary" />
-            {hero.pill}
-          </Pill>
           <h1 className="display text-balance text-display-xl font-bold">
             {emphasise(hero.headline)}
           </h1>
