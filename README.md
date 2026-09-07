@@ -85,12 +85,16 @@ build-time variables; in the workflow they come from repository variables.
 
 ## Deploying to Azure App Service
 
-1. Create a Linux App Service on Node 22 named `the-fractional-cto` (or
-   change `app-name` in the workflow). Startup command: `node server.js`.
-2. Add the runtime settings from `.env.example` as application settings.
-3. Add the `AZURE_CREDENTIALS` repository secret (service principal JSON).
-4. Push to `main`. The workflow lints, typechecks, builds and deploys
-   `.next/standalone`.
+The site runs on the `the-fractional-cto` web app in resource group
+`leadgen`, on the shared `leadnet-plan` App Service plan (Linux, Node 22,
+startup command `node server.js`). Its default host is
+https://the-fractional-cto.azurewebsites.net.
+
+Every push to `main` runs `.github/workflows/deploy.yml`, which lints,
+typechecks, builds and deploys `.next/standalone`. It authenticates with the
+`AZURE_CREDENTIALS` repository secret (service principal JSON). Runtime
+settings from `.env.example` live in the web app's application settings and
+take effect on restart, no rebuild needed.
 
 ## Before launch
 
