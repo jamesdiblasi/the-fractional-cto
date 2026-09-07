@@ -7,8 +7,8 @@
  * rendered dynamically so a change to an App Service setting takes effect on
  * the next request rather than the next build.
  *
- * Copy that is not a switch (headlines, service descriptions, FAQ, the
- * placeholder bio and stats) lives in lib/content.ts.
+ * Copy that is not a switch (headlines, benefits, FAQ, the founder bio)
+ * lives in lib/content.ts.
  */
 
 function bool(value: string | undefined, fallback: boolean): boolean {
@@ -35,11 +35,14 @@ export interface Tier {
   showPrice: boolean;
   /** Monthly price in whole dollars. */
   price: number;
+  /** Optional struck-through price shown beside the real one. 0 = none. */
+  comparePrice: number;
   tagline: string;
   commitment: string;
   bestFor: string;
   includes: string[];
-  highlighted: boolean;
+  /** The one plan that gets the big card. */
+  featured: boolean;
 }
 
 export interface OneOff {
@@ -72,48 +75,49 @@ export interface SiteConfig {
 
 const TIER_DEFAULTS: Record<
   TierKey,
-  Omit<Tier, 'key' | 'enabled' | 'showPrice' | 'price'>
+  Omit<Tier, 'key' | 'enabled' | 'showPrice' | 'price' | 'comparePrice'>
 > = {
   advisor: {
     name: 'Advisor',
     tagline: 'A senior technical voice in your corner.',
     commitment: 'A few hours a week',
-    bestFor: 'Founders who need a sounding board before big technical decisions.',
+    bestFor: 'Founders who want a sounding board before the big technical calls.',
     includes: [
       'Weekly strategy call',
       'Architecture and vendor reviews',
       'Hiring and contractor vetting',
       'Async access on Slack or Teams',
     ],
-    highlighted: false,
+    featured: false,
   },
   fractional: {
     name: 'Fractional',
     tagline: 'Your CTO, one to two days a week.',
     commitment: 'One to two days a week',
-    bestFor: 'Startups and growing businesses that need someone owning the roadmap.',
+    bestFor: 'Growing businesses that need someone owning the roadmap.',
     includes: [
       'Everything in Advisor',
       'Technical roadmap and delivery ownership',
       'Team leadership and one-on-ones',
-      'Investor and board technical updates',
+      'Board and investor technical updates',
       'Security, cost and reliability oversight',
+      'Unlimited requests, handled one at a time',
     ],
-    highlighted: true,
+    featured: true,
   },
   embedded: {
     name: 'Embedded',
     tagline: 'Hands-on leadership, most of the week.',
     commitment: 'Three days a week',
-    bestFor: 'Teams mid-build or mid-turnaround that need someone in the trenches.',
+    bestFor: 'Teams mid-build or mid-turnaround that need someone in the room.',
     includes: [
       'Everything in Fractional',
       'Day-to-day engineering management',
       'Hands-on architecture and code review',
       'Process, tooling and DevOps setup',
-      'Recruitment and onboarding of your permanent CTO',
+      'Recruit and onboard your permanent CTO',
     ],
-    highlighted: false,
+    featured: false,
   },
 };
 
@@ -133,6 +137,7 @@ function readTier(key: TierKey): Tier {
     enabled: bool(env[`${prefix}_ENABLED`], true),
     showPrice: bool(env[`${prefix}_SHOW_PRICE`], true),
     price: num(env[`${prefix}_PRICE`], TIER_PRICE_DEFAULTS[key]),
+    comparePrice: num(env[`${prefix}_COMPARE_PRICE`], 0),
   };
 }
 
@@ -146,12 +151,12 @@ function readOneOffs(): OneOff[] {
       showPrice: bool(env.ONEOFF_AUDIT_SHOW_PRICE, true),
       price: num(env.ONEOFF_AUDIT_PRICE, 4500),
       summary:
-        'A fixed-scope review of your codebase, architecture, security and team, written for founders and investors, not just engineers.',
+        'A fixed-scope review of your code, architecture, security and team. Written for founders and investors, not just engineers.',
       includes: [
         'Two-week review',
         'Plain-English report with a prioritised fix list',
         'Read-out call with your leadership team',
-        'Suitable for due diligence before a raise or sale',
+        'Built for due diligence before a raise or sale',
       ],
     },
     {
@@ -161,12 +166,12 @@ function readOneOffs(): OneOff[] {
       showPrice: bool(env.ONEOFF_MVP_SHOW_PRICE, true),
       price: num(env.ONEOFF_MVP_PRICE, 25000),
       summary:
-        'Your first product or internal tool, built by a small senior team I lead, scoped so you know what you are getting before we start.',
+        'Your first product or internal tool, built by a small senior team I lead. Scoped so you know what you get before we start.',
       includes: [
         'Discovery and scoping workshop',
-        'Fixed milestones and a working demo every fortnight',
-        'Production-ready, documented and handed over',
-        'AI and automation built in where it earns its keep',
+        'Fixed milestones, a working demo every fortnight',
+        'Production-ready, documented, handed over',
+        'AI and automation where it earns its keep',
       ],
     },
   ];
@@ -183,7 +188,7 @@ export function getSiteConfig(): SiteConfig {
     siteUrl,
     tagline: str(
       env.SITE_TAGLINE,
-      'Senior technical leadership for businesses that are not ready for a full-time CTO.',
+      'Senior technical leadership for growing businesses, one flat monthly fee. Pause or cancel anytime.',
     ),
     bookingUrl: str(env.BOOKING_URL, '#contact'),
     contactEmail: str(env.CONTACT_EMAIL, 'hello@thefractionalcto.com.au'),
@@ -205,4 +210,8 @@ export function formatPrice(amount: number, currency: string): string {
     currency,
     maximumFractionDigits: 0,
   }).format(amount);
+}
+
+export function isExternal(href: string): boolean {
+  return /^https?:\/\//i.test(href);
 }

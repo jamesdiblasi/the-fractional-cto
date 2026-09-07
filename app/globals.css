@@ -5,45 +5,48 @@
 /* ==========================================================================
    The Fractional CTO theme, expressed as the shadcn/ui token contract.
 
-   Dark-only by design: near-black ground with a slight blue cast, elevated
-   card surfaces, and a single warm amber accent so calls to action read as
-   the one bright thing on the page. Components never name a hex value, so
-   re-pointing a token here restyles the whole site.
+   Light and direct: white ground, near-black type, warm greys, and one
+   electric blue used for emphasis only. Buttons are black pills; blue is for
+   highlights, links and the hero glow. Big type with tight tracking does the
+   rest. Components never name a hex value, so re-pointing a token here
+   restyles the whole site.
 
-   Triples are unwrapped (`32 95% 58%`, not `hsl(...)`) because Tailwind
+   Triples are unwrapped (`224 100% 52%`, not `hsl(...)`) because Tailwind
    composes them as `hsl(var(--primary) / <alpha>)` for opacity modifiers.
    ========================================================================== */
 @layer base {
-  :root,
-  .dark {
-    --background: 220 20% 5%;
-    --foreground: 210 20% 94%;
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 4%;
 
-    --card: 220 18% 8%;
-    --card-foreground: 210 20% 94%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 4%;
 
-    --primary: 32 95% 58%;
-    --primary-foreground: 24 40% 8%;
+    /* Electric blue. */
+    --primary: 224 100% 52%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 14% 13%;
-    --secondary-foreground: 210 20% 94%;
+    /* Black pill buttons. */
+    --secondary: 0 0% 4%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 14% 12%;
-    --muted-foreground: 215 12% 65%;
+    /* Warm off-white panels for tinted sections. */
+    --muted: 30 14% 96%;
+    --muted-foreground: 30 4% 42%;
 
-    --accent: 220 14% 16%;
-    --accent-foreground: 210 20% 94%;
+    --accent: 30 14% 93%;
+    --accent-foreground: 0 0% 4%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 71% 45%;
+    --success: 152 60% 38%;
 
-    --border: 220 12% 16%;
-    --input: 220 12% 20%;
-    --ring: 32 95% 58%;
+    --border: 0 0% 88%;
+    --input: 0 0% 78%;
+    --ring: 224 100% 52%;
 
-    --radius: 0.75rem;
+    --radius: 1.25rem;
   }
 
   * {
@@ -52,32 +55,38 @@
 
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: 'ss01', 'cv11';
+    font-feature-settings: 'ss01', 'cv11', 'liga';
   }
 
   ::selection {
-    background: hsl(var(--primary) / 0.35);
+    background: hsl(var(--primary) / 0.2);
   }
 }
 
 @layer utilities {
-  /* Faint engineering grid behind the hero. */
-  .bg-grid {
-    background-image:
-      linear-gradient(to right, hsl(var(--border) / 0.6) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--border) / 0.6) 1px, transparent 1px);
-    background-size: 48px 48px;
-  }
-  .mask-fade-b {
-    -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 20%, transparent 100%);
-  }
   .text-balance {
     text-wrap: balance;
+  }
+  /* Display type: tight tracking that gets tighter as it gets bigger. */
+  .display {
+    letter-spacing: -0.04em;
+  }
+  .display-sm {
+    letter-spacing: -0.025em;
+  }
+  /* The hero glow: one soft blue blob behind the founder photo. */
+  .hero-glow {
+    background: radial-gradient(
+      closest-side,
+      hsl(var(--primary) / 0.45),
+      hsl(var(--primary) / 0.16) 55%,
+      transparent 100%
+    );
+    filter: blur(28px);
   }
 }

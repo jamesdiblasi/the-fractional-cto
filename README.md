@@ -4,8 +4,11 @@ Marketing site for The Fractional CTO: a single long landing page selling
 fractional CTO retainers, technical audits, MVP builds and AI automation to
 startups, growing businesses and the people who back them.
 
-Next.js 14 (App Router), Tailwind, shadcn-style tokens, dark theme. Deploys as
-a standalone Node server to Azure App Service.
+Next.js 14 (App Router), Tailwind, shadcn-style tokens. The design borrows
+from designjoy.co: white ground, oversized Figtree headlines with tight
+tracking, black pill buttons, one electric-blue accent, a featured plan with
+"pause or cancel anytime" callouts, and a founder-led hero. No emoji. Deploys
+as a standalone Node server to Azure App Service.
 
 ## Run it
 
@@ -28,9 +31,10 @@ npm run build
 | What | Where |
 | --- | --- |
 | On/off switches, prices, booking link | Environment variables, read by `lib/config.ts` |
-| Headlines, service copy, FAQ, process steps | `lib/content.ts` |
-| Stats strip and bio (both PLACEHOLDER) | `lib/content.ts`, marked `PLACEHOLDER` |
-| Photo | `public/about-placeholder.svg`, swap and update `about.photo` |
+| Headlines, benefits, services, FAQ, how-it-works steps | `lib/content.ts` |
+| Founder name and bio (PLACEHOLDER) | `lib/content.ts`, `founder`, marked `PLACEHOLDER` |
+| Founder photo | `public/founder-placeholder.svg`; replace with a transparent cutout PNG or WebP and update `founder.photo` |
+| Technology logo row | `lib/tech-logos.ts` (simple-icons paths), rendered by `components/sections/TechLogos.tsx` |
 | Colours and type | `app/globals.css` (tokens), `tailwind.config.ts` |
 | Page sections | `components/sections/*` |
 | Contact form email | `app/api/contact/route.ts` via `lib/mailjet.ts` |

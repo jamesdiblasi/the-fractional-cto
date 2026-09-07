@@ -5,12 +5,13 @@ import { Menu, X } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { LinkButton } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { isExternal } from '@/lib/config';
 
 const links = [
-  { href: '#services', label: 'Services' },
   { href: '#how-it-works', label: 'How it works' },
+  { href: '#benefits', label: 'Benefits' },
+  { href: '#services', label: 'Services' },
   { href: '#pricing', label: 'Pricing' },
-  { href: '#about', label: 'About' },
   { href: '#faq', label: 'FAQ' },
 ];
 
@@ -24,38 +25,36 @@ export function Nav({
   ctaLabel: string;
 }) {
   const [open, setOpen] = useState(false);
-  const external = bookingUrl.startsWith('http');
+  const external = isExternal(bookingUrl);
+  const linkProps = external
+    ? { target: '_blank', rel: 'noopener noreferrer' }
+    : {};
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="container flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-md">
+      <div className="container flex h-[72px] items-center justify-between">
         <a href="#top" className="flex items-center" aria-label={siteName}>
           <Logo name={siteName} />
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-[15px] font-medium text-foreground/70 transition-colors hover:text-foreground"
             >
               {l.label}
             </a>
           ))}
-          <LinkButton
-            href={bookingUrl}
-            size="sm"
-            target={external ? '_blank' : undefined}
-            rel={external ? 'noopener noreferrer' : undefined}
-          >
+          <LinkButton href={bookingUrl} size="sm" className="ml-2" {...linkProps}>
             {ctaLabel}
           </LinkButton>
         </nav>
 
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground hover:bg-accent md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-accent md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? 'Close menu' : 'Open menu'}
@@ -68,7 +67,7 @@ export function Nav({
       <div
         id="mobile-nav"
         className={cn(
-          'border-t border-border bg-background md:hidden',
+          'border-b border-border bg-background md:hidden',
           open ? 'block' : 'hidden',
         )}
       >
@@ -78,7 +77,7 @@ export function Nav({
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="rounded-md px-2 py-2.5 text-base text-muted-foreground hover:bg-accent hover:text-foreground"
+              className="rounded-md px-2 py-2.5 text-lg font-medium"
             >
               {l.label}
             </a>
@@ -86,9 +85,8 @@ export function Nav({
           <LinkButton
             href={bookingUrl}
             className="mt-2"
-            target={external ? '_blank' : undefined}
-            rel={external ? 'noopener noreferrer' : undefined}
             onClick={() => setOpen(false)}
+            {...linkProps}
           >
             {ctaLabel}
           </LinkButton>

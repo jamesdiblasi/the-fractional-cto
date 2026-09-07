@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   const site = getSiteConfig();
   return (
-    <main className="container max-w-3xl py-16">
+    <main className="container max-w-2xl py-16">
       <a href="/" className="inline-flex">
         <Logo name={site.siteName} />
       </a>
-      <h1 className="mt-10 text-3xl font-semibold tracking-tight">Privacy</h1>
-      <div className="prose-invert mt-6 space-y-4 leading-relaxed text-muted-foreground">
+      <h1 className="display mt-12 text-display-lg font-bold">Privacy</h1>
+      <div className="mt-7 space-y-4 text-lg leading-relaxed text-muted-foreground">
         <p>
           {site.siteName} collects only what you give it. If you fill in the
           contact form or request the checklist, your name, email address and
@@ -30,14 +30,14 @@ export default function PrivacyPage() {
         </p>
         <p>
           To have anything you have sent deleted, email{' '}
-          <a href={`mailto:${site.contactEmail}`} className="text-foreground">
+          <a href={`mailto:${site.contactEmail}`} className="font-semibold text-foreground underline underline-offset-4">
             {site.contactEmail}
           </a>
           .
         </p>
       </div>
       <p className="mt-10">
-        <a href="/" className="text-sm text-primary underline-offset-4 hover:underline">
+        <a href="/" className="font-semibold underline underline-offset-4">
           Back to the site
         </a>
       </p>

@@ -5,13 +5,12 @@ import type { Config } from 'tailwindcss';
  * The palette lives there; components only ever use the semantic names.
  */
 const config: Config = {
-  darkMode: ['class'],
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   theme: {
     container: {
       center: true,
-      padding: '1.5rem',
-      screens: { '2xl': '1200px' },
+      padding: { DEFAULT: '1.25rem', sm: '2rem' },
+      screens: { '2xl': '1180px' },
     },
     extend: {
       colors: {
@@ -47,13 +46,15 @@ const config: Config = {
         success: 'hsl(var(--success))',
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        '2xl': 'calc(var(--radius) + 8px)',
+        xl: 'var(--radius)',
+        lg: 'calc(var(--radius) - 4px)',
+        md: 'calc(var(--radius) - 10px)',
+        sm: 'calc(var(--radius) - 14px)',
       },
       fontFamily: {
         sans: [
-          'Inter',
+          'Figtree',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
@@ -63,23 +64,25 @@ const config: Config = {
           'Arial',
           'sans-serif',
         ],
-        mono: [
-          'JetBrains Mono',
-          'ui-monospace',
-          'SFMono-Regular',
-          'Menlo',
-          'Consolas',
-          'monospace',
-        ],
+      },
+      fontSize: {
+        'display-xl': ['clamp(2.9rem, 7.4vw, 5.6rem)', { lineHeight: '0.96' }],
+        'display-lg': ['clamp(2.25rem, 5vw, 3.9rem)', { lineHeight: '1.02' }],
+        'display-md': ['clamp(1.75rem, 3.2vw, 2.5rem)', { lineHeight: '1.08' }],
       },
       keyframes: {
         'fade-up': {
-          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '0%': { opacity: '0', transform: 'translateY(14px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
       },
       animation: {
-        'fade-up': 'fade-up 0.6s ease-out both',
+        'fade-up': 'fade-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both',
+        marquee: 'marquee 45s linear infinite',
       },
     },
   },

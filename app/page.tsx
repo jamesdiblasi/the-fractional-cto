@@ -1,14 +1,14 @@
 import { getSiteConfig } from '@/lib/config';
-import { hero, faqs } from '@/lib/content';
+import { faqs } from '@/lib/content';
 import { Nav } from '@/components/Nav';
 import { Hero } from '@/components/sections/Hero';
-import { Audiences } from '@/components/sections/Audiences';
+import { TechLogos } from '@/components/sections/TechLogos';
+import { HowItWorks } from '@/components/sections/HowItWorks';
+import { Benefits } from '@/components/sections/Benefits';
 import { Services } from '@/components/sections/Services';
-import { Process } from '@/components/sections/Process';
-import { Stats } from '@/components/sections/Stats';
 import { Pricing } from '@/components/sections/Pricing';
+import { Founder } from '@/components/sections/Founder';
 import { LeadMagnet } from '@/components/sections/LeadMagnet';
-import { About } from '@/components/sections/About';
 import { Faq } from '@/components/sections/Faq';
 import { Contact } from '@/components/sections/Contact';
 import { Footer } from '@/components/sections/Footer';
@@ -51,7 +51,7 @@ export default function HomePage() {
       },
       {
         '@type': 'FAQPage',
-        mainEntity: faqs.map((f) => ({
+        mainEntity: faqs.items.map((f) => ({
           '@type': 'Question',
           name: f.q,
           acceptedAnswer: { '@type': 'Answer', text: f.a },
@@ -65,17 +65,17 @@ export default function HomePage() {
       <Nav
         siteName={site.siteName}
         bookingUrl={site.bookingUrl}
-        ctaLabel={hero.primaryCta}
+        ctaLabel="Book a call"
       />
       <main>
         <Hero bookingUrl={site.bookingUrl} />
-        <Stats />
-        <Audiences />
+        <TechLogos />
+        <HowItWorks />
+        <Benefits />
         <Services />
-        <Process />
         <Pricing site={site} />
+        <Founder />
         {site.leadMagnetEnabled && <LeadMagnet />}
-        <About />
         <Faq />
         <Contact
           bookingUrl={site.bookingUrl}

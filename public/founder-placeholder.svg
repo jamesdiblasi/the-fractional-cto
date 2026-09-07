@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 880" width="880" height="880">
+  <!-- PLACEHOLDER. Replace with a transparent cutout photo (PNG or WebP), roughly square, person centred. -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9e6e2"/>
+      <stop offset="1" stop-color="#d6d2cc"/>
+    </linearGradient>
+  </defs>
+  <circle cx="440" cy="300" r="150" fill="url(#g)"/>
+  <path d="M150 880c0-200 130-330 290-330s290 130 290 330z" fill="url(#g)"/>
+  <rect x="290" y="790" width="300" height="52" rx="26" fill="#ffffff" stroke="#d6d2cc" stroke-width="2"/>
+  <text x="440" y="824" text-anchor="middle" font-family="Figtree, system-ui, sans-serif" font-size="22" font-weight="700" fill="#6b6762">YOUR PHOTO HERE</text>
+</svg>

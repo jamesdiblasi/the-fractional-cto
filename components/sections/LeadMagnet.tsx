@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { FileDown, Loader2, CheckCircle2 } from 'lucide-react';
+import { FileDown, Loader2, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input, Label } from '@/components/ui/input';
 import { Eyebrow } from '@/components/Section';
@@ -49,94 +49,95 @@ export function LeadMagnet() {
   }
 
   return (
-    <section id="checklist" className="scroll-mt-20 py-20 sm:py-24">
+    <section id="checklist" className="scroll-mt-24 py-24 sm:py-32">
       <div className="container">
-        <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-card p-8 sm:p-12">
-          <div
-            className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl"
-            aria-hidden
-          />
-          <div className="relative grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
-            <div>
-              <Eyebrow>{leadMagnet.eyebrow}</Eyebrow>
-              <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-                {leadMagnet.title}
-              </h2>
-              <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-                {leadMagnet.body}
-              </p>
-            </div>
-
-            {state.status === 'done' ? (
-              <div className="rounded-xl border border-success/40 bg-success/10 p-6">
-                <p className="inline-flex items-center gap-2 font-medium">
-                  <CheckCircle2 className="h-5 w-5 text-success" />
-                  It is on its way to your inbox.
-                </p>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  You can also grab it right now.
-                </p>
-                <a
-                  href={state.url}
-                  className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FileDown className="h-4 w-4" />
-                  Download the checklist
-                </a>
-              </div>
-            ) : (
-              <form onSubmit={onSubmit} className="space-y-4" noValidate>
-                <div>
-                  <Label htmlFor="lm-name">First name</Label>
-                  <Input
-                    id="lm-name"
-                    name="name"
-                    autoComplete="given-name"
-                    placeholder="Sam"
-                    maxLength={80}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="lm-email">Work email</Label>
-                  <Input
-                    id="lm-email"
-                    name="email"
-                    type="email"
-                    required
-                    autoComplete="email"
-                    placeholder="sam@company.com.au"
-                  />
-                </div>
-                {/* Honeypot: hidden from people, filled by bots. */}
-                <div className="hidden" aria-hidden>
-                  <label htmlFor="lm-website">Website</label>
-                  <input id="lm-website" name="website" tabIndex={-1} autoComplete="off" />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={state.status === 'sending'}
-                >
-                  {state.status === 'sending' ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <FileDown className="h-4 w-4" />
-                  )}
-                  {leadMagnet.cta}
-                </Button>
-                {state.status === 'error' && (
-                  <p className="text-sm text-destructive" role="alert">
-                    {state.message}
-                  </p>
-                )}
-                <p className="text-xs text-muted-foreground">
-                  One email with the PDF. No drip sequence, no spam.
-                </p>
-              </form>
-            )}
+        <div className="grid items-center gap-10 rounded-2xl bg-secondary p-8 text-secondary-foreground sm:p-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16 lg:p-16">
+          <div>
+            <Eyebrow>{leadMagnet.eyebrow}</Eyebrow>
+            <h2 className="display text-balance text-display-lg font-bold">
+              {leadMagnet.title}
+            </h2>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/65">
+              {leadMagnet.body}
+            </p>
           </div>
+
+          {state.status === 'done' ? (
+            <div className="rounded-2xl bg-white/10 p-7">
+              <p className="inline-flex items-center gap-2 text-lg font-bold">
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+                It is on its way to your inbox.
+              </p>
+              <p className="mt-2 text-sm text-white/65">
+                You can also grab it right now.
+              </p>
+              <a
+                href={state.url}
+                className="mt-5 inline-flex items-center gap-2 font-semibold underline underline-offset-4"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FileDown className="h-4 w-4" />
+                Download the checklist
+              </a>
+            </div>
+          ) : (
+            <form onSubmit={onSubmit} className="space-y-4" noValidate>
+              <div>
+                <Label htmlFor="lm-name" className="text-white/80">
+                  First name
+                </Label>
+                <Input
+                  id="lm-name"
+                  name="name"
+                  autoComplete="given-name"
+                  placeholder="Sam"
+                  maxLength={80}
+                  className="border-white/15 bg-white/10 text-white placeholder:text-white/40"
+                />
+              </div>
+              <div>
+                <Label htmlFor="lm-email" className="text-white/80">
+                  Work email
+                </Label>
+                <Input
+                  id="lm-email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  placeholder="sam@company.com.au"
+                  className="border-white/15 bg-white/10 text-white placeholder:text-white/40"
+                />
+              </div>
+              {/* Honeypot: hidden from people, filled by bots. */}
+              <div className="hidden" aria-hidden>
+                <label htmlFor="lm-website">Website</label>
+                <input id="lm-website" name="website" tabIndex={-1} autoComplete="off" />
+              </div>
+              <Button
+                type="submit"
+                variant="blue"
+                size="lg"
+                className="w-full"
+                disabled={state.status === 'sending'}
+              >
+                {state.status === 'sending' ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : null}
+                {leadMagnet.cta}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+              {state.status === 'error' && (
+                <p className="text-sm text-red-300" role="alert">
+                  {state.message}
+                </p>
+              )}
+              <p className="text-xs text-white/50">
+                One email with the PDF. No drip sequence, no spam.
+              </p>
+            </form>
+          )}
         </div>
       </div>
     </section>

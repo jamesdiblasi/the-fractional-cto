@@ -6,7 +6,9 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   eyebrow?: string;
   title?: string;
   intro?: string;
-  tone?: 'default' | 'card';
+  /** Centre the header, the way Designjoy sets most section titles. */
+  centered?: boolean;
+  tone?: 'default' | 'muted';
 }
 
 export function Section({
@@ -14,6 +16,7 @@ export function Section({
   eyebrow,
   title,
   intro,
+  centered = true,
   tone = 'default',
   className,
   children,
@@ -23,23 +26,28 @@ export function Section({
     <section
       id={id}
       className={cn(
-        'scroll-mt-20 py-20 sm:py-24',
-        tone === 'card' && 'border-y border-border bg-card/40',
+        'scroll-mt-24 py-24 sm:py-32',
+        tone === 'muted' && 'bg-muted',
         className,
       )}
       {...rest}
     >
       <div className="container">
         {(eyebrow || title || intro) && (
-          <header className="mb-12 max-w-2xl">
+          <header
+            className={cn(
+              'mb-14 max-w-3xl sm:mb-16',
+              centered && 'mx-auto text-center',
+            )}
+          >
             {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
             {title && (
-              <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
+              <h2 className="display text-balance text-display-lg font-bold">
                 {title}
               </h2>
             )}
             {intro && (
-              <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground sm:text-xl">
                 {intro}
               </p>
             )}
@@ -53,8 +61,25 @@ export function Section({
 
 export function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-primary">
+    <p className="mb-4 text-sm font-semibold text-primary">{children}</p>
+  );
+}
+
+export function Pill({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center gap-2 rounded-full border border-border bg-background px-3.5 py-1.5 text-sm font-medium',
+        className,
+      )}
+    >
       {children}
-    </p>
+    </span>
   );
 }
