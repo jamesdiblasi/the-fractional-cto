@@ -37,11 +37,29 @@ npm run build
 | Technology logo row | `lib/tech-logos.ts` (simple-icons paths), rendered by `components/sections/TechLogos.tsx` |
 | Colours and type | `app/globals.css` (tokens), `tailwind.config.ts` |
 | Page sections | `components/sections/*` |
+| Keyword articles | `lib/articles/*.ts`, rendered by `app/articles` |
 | Contact form email | `app/api/contact/route.ts` via `lib/mailjet.ts` |
 | Checklist download | `app/api/checklist/route.ts`, PDF in `public/` |
 | Checklist source | `scripts/checklist.html`, rebuild with `npm run checklist:pdf` |
 | SEO | `app/layout.tsx` metadata, `app/opengraph-image.tsx`, `app/sitemap.ts`, `app/robots.ts`, JSON-LD in `app/page.tsx` |
 | Azure deploy | `.github/workflows/deploy.yml` |
+
+## Articles
+
+`/articles` and `/articles/<slug>` exist to be found in search, not browsed.
+Nothing in the navigation or the footer links to them, by design. Discovery
+is `sitemap.xml`, the `/articles` index, and the cross-links the articles make
+to each other, so keep the `related` slugs pointing somewhere real.
+
+One article is one file in `lib/articles/`, exporting an `Article`. Register
+it in `lib/articles/index.ts` and the route, the metadata, the Article,
+BreadcrumbList and FAQPage structured data and the sitemap entry all follow.
+Body copy is plain data: a few block types, plus `**bold**` and
+`[label](/href)` inline. See `lib/articles/types.ts` and `components/Prose.tsx`.
+
+The dollar figures in the current set are indicative Australian market ranges
+for 2026, written to be defensible rather than precise. Review them before
+launch, and once a year after that.
 
 ## Pricing switches
 
