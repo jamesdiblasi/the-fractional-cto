@@ -2,8 +2,8 @@
  * Site configuration, read from the environment at request time.
  *
  * Everything an owner might want to flip without a redeploy lives here:
- * which pricing tiers show, whether each shows its price, the one-off
- * "from" prices, the booking link, and the analytics IDs. app/page.tsx is
+ * the plan price, which add-ons show and what they cost, the booking link,
+ * and the analytics IDs. app/page.tsx is
  * rendered dynamically so a change to an App Service setting takes effect on
  * the next request rather than the next build.
  *
@@ -26,10 +26,12 @@ function str(value: string | undefined, fallback: string): string {
   return value && value.trim() !== '' ? value.trim() : fallback;
 }
 
-export type TierKey = 'advisor' | 'fractional' | 'embedded';
-
-export interface Tier {
-  key: TierKey;
+/**
+ * One plan. The subscription is sold on throughput, not time: unlimited
+ * requests handled one at a time. Anything priced by hours or days would
+ * contradict that, so no tier carries a commitment in days.
+ */
+export interface Plan {
   name: string;
   enabled: boolean;
   showPrice: boolean;
@@ -38,20 +40,21 @@ export interface Tier {
   /** Optional struck-through price shown beside the real one. 0 = none. */
   comparePrice: number;
   tagline: string;
-  commitment: string;
   bestFor: string;
   includes: string[];
-  /** The one plan that gets the big card. */
-  featured: boolean;
 }
 
-export interface OneOff {
-  key: 'audit' | 'mvp';
+export type AddOnKey = 'parallel' | 'audit' | 'mvp';
+
+export interface AddOn {
+  key: AddOnKey;
   name: string;
   enabled: boolean;
   showPrice: boolean;
-  /** "From" price in whole dollars. */
+  /** Monthly for a recurring add-on, a "from" price otherwise. */
   price: number;
+  /** True rides on the subscription each month; false is fixed-scope work. */
+  recurring: boolean;
   summary: string;
   includes: string[];
 }
@@ -63,8 +66,8 @@ export interface SiteConfig {
   bookingUrl: string;
   contactEmail: string;
   currency: string;
-  tiers: Tier[];
-  oneOffs: OneOff[];
+  plan: Plan;
+  addOns: AddOn[];
   leadMagnetEnabled: boolean;
   contactFormEnabled: boolean;
   analytics: {
@@ -73,87 +76,66 @@ export interface SiteConfig {
   };
 }
 
-const TIER_DEFAULTS: Record<
-  TierKey,
-  Omit<Tier, 'key' | 'enabled' | 'showPrice' | 'price' | 'comparePrice'>
+const PLAN_DEFAULTS: Omit<
+  Plan,
+  'enabled' | 'showPrice' | 'price' | 'comparePrice'
 > = {
-  advisor: {
-    name: 'Advisor',
-    tagline: 'A senior technical voice in your corner.',
-    commitment: 'A few hours a week',
-    bestFor: 'Founders who want a sounding board before the big technical calls.',
-    includes: [
-      'Weekly strategy call',
-      'Architecture and vendor reviews',
-      'Hiring and contractor vetting',
-      'Async access on Slack or Teams',
-    ],
-    featured: false,
-  },
-  fractional: {
-    name: 'Fractional',
-    tagline: 'Your CTO, one to two days a week.',
-    commitment: 'One to two days a week',
-    bestFor: 'Growing businesses that need someone owning the roadmap.',
-    includes: [
-      'Everything in Advisor',
-      'Technical roadmap and delivery ownership',
-      'Team leadership and one-on-ones',
-      'Board and investor technical updates',
-      'Security, cost and reliability oversight',
-      'Unlimited requests, handled one at a time',
-    ],
-    featured: true,
-  },
-  embedded: {
-    name: 'Embedded',
-    tagline: 'Hands-on leadership, most of the week.',
-    commitment: 'Three days a week',
-    bestFor: 'Teams mid-build or mid-turnaround that need someone in the room.',
-    includes: [
-      'Everything in Fractional',
-      'Day-to-day engineering management',
-      'Hands-on architecture and code review',
-      'Process, tooling and DevOps setup',
-      'Recruit and onboard your permanent CTO',
-    ],
-    featured: false,
-  },
+  name: 'Fractional CTO',
+  tagline: 'Unlimited requests, handled one at a time.',
+  bestFor:
+    'Growing businesses that need someone owning the technology, without a full-time hire.',
+  includes: [
+    'Unlimited requests, handled one at a time',
+    'Most requests back within days',
+    'Technical roadmap and delivery ownership',
+    'Architecture and vendor reviews',
+    'Hiring and contractor vetting',
+    'Security, cost and reliability oversight',
+    'Board and investor technical updates',
+    'Async access on Slack or Teams',
+  ],
 };
 
-const TIER_PRICE_DEFAULTS: Record<TierKey, number> = {
-  advisor: 2500,
-  fractional: 6000,
-  embedded: 12000,
-};
-
-function readTier(key: TierKey): Tier {
-  const prefix = `TIER_${key.toUpperCase()}`;
+function readPlan(): Plan {
   const env = process.env;
   return {
-    key,
-    ...TIER_DEFAULTS[key],
-    name: str(env[`${prefix}_NAME`], TIER_DEFAULTS[key].name),
-    enabled: bool(env[`${prefix}_ENABLED`], true),
-    showPrice: bool(env[`${prefix}_SHOW_PRICE`], true),
-    price: num(env[`${prefix}_PRICE`], TIER_PRICE_DEFAULTS[key]),
-    comparePrice: num(env[`${prefix}_COMPARE_PRICE`], 0),
+    ...PLAN_DEFAULTS,
+    name: str(env.PLAN_NAME, PLAN_DEFAULTS.name),
+    enabled: bool(env.PLAN_ENABLED, true),
+    showPrice: bool(env.PLAN_SHOW_PRICE, true),
+    price: num(env.PLAN_PRICE, 6000),
+    comparePrice: num(env.PLAN_COMPARE_PRICE, 0),
   };
 }
 
-function readOneOffs(): OneOff[] {
+function readAddOns(): AddOn[] {
   const env = process.env;
   return [
     {
+      key: 'parallel',
+      name: 'A second request in parallel',
+      enabled: bool(env.ADDON_PARALLEL_ENABLED, true),
+      showPrice: bool(env.ADDON_PARALLEL_SHOW_PRICE, true),
+      price: num(env.ADDON_PARALLEL_PRICE, 3000),
+      recurring: true,
+      summary:
+        'Two requests moving at once instead of one, for the months when more than one thing needs to happen at the same time.',
+      includes: [
+        'Two active requests instead of one',
+        'Same turnaround on both',
+        'Add it or drop it month to month',
+      ],
+    },
+    {
       key: 'audit',
       name: 'Technical audit',
-      enabled: bool(env.ONEOFF_AUDIT_ENABLED, true),
-      showPrice: bool(env.ONEOFF_AUDIT_SHOW_PRICE, true),
-      price: num(env.ONEOFF_AUDIT_PRICE, 4500),
+      enabled: bool(env.ADDON_AUDIT_ENABLED, true),
+      showPrice: bool(env.ADDON_AUDIT_SHOW_PRICE, true),
+      price: num(env.ADDON_AUDIT_PRICE, 4500),
+      recurring: false,
       summary:
         'A fixed-scope review of your code, architecture, security and team. Written for founders and investors, not just engineers.',
       includes: [
-        'Two-week review',
         'Plain-English report with a prioritised fix list',
         'Read-out call with your leadership team',
         'Built for due diligence before a raise or sale',
@@ -162,16 +144,16 @@ function readOneOffs(): OneOff[] {
     {
       key: 'mvp',
       name: 'MVP and product build',
-      enabled: bool(env.ONEOFF_MVP_ENABLED, true),
-      showPrice: bool(env.ONEOFF_MVP_SHOW_PRICE, true),
-      price: num(env.ONEOFF_MVP_PRICE, 25000),
+      enabled: bool(env.ADDON_MVP_ENABLED, true),
+      showPrice: bool(env.ADDON_MVP_SHOW_PRICE, true),
+      price: num(env.ADDON_MVP_PRICE, 25000),
+      recurring: false,
       summary:
         'Your first product or internal tool, built by a small senior team I lead. Scoped so you know what you get before we start.',
       includes: [
         'Discovery and scoping workshop',
         'Fixed milestones, a working demo every fortnight',
         'Production-ready, documented, handed over',
-        'AI and automation where it earns its keep',
       ],
     },
   ];
@@ -188,13 +170,13 @@ export function getSiteConfig(): SiteConfig {
     siteUrl,
     tagline: str(
       env.SITE_TAGLINE,
-      'Senior technical leadership for growing businesses, one flat monthly fee. Pause or cancel anytime.',
+      'A CTO for growing businesses, without hiring one. Unlimited requests, one flat monthly fee.',
     ),
     bookingUrl: str(env.BOOKING_URL, '#booking'),
     contactEmail: str(env.CONTACT_EMAIL, 'hello@thefractionalcto.com.au'),
     currency: str(env.CURRENCY, 'AUD'),
-    tiers: (['advisor', 'fractional', 'embedded'] as TierKey[]).map(readTier),
-    oneOffs: readOneOffs(),
+    plan: readPlan(),
+    addOns: readAddOns(),
     leadMagnetEnabled: bool(env.LEAD_MAGNET_ENABLED, true),
     contactFormEnabled: bool(env.CONTACT_FORM_ENABLED, true),
     analytics: {

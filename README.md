@@ -45,19 +45,23 @@ npm run build
 
 ## Pricing switches
 
-Each of the three tiers and the two fixed-scope offers has its own switches.
-Every value has a sensible default, so nothing needs to be set to get the
-full page.
+There is one plan and three add-ons. The subscription is sold on throughput,
+not time: unlimited requests handled one at a time. Nothing is priced by the
+hour or the day, because the hero promises a flat fee for unlimited requests
+and a day rate would contradict it. Every value has a sensible default, so
+nothing needs to be set to get the full page.
 
 ```
-TIER_ADVISOR_ENABLED=true        # hide the whole tier with false
-TIER_ADVISOR_SHOW_PRICE=true     # keep the tier, hide the number
-TIER_ADVISOR_PRICE=2500          # whole dollars per month
-TIER_ADVISOR_NAME=Advisor        # optional rename
+PLAN_ENABLED=true            # hide the plan with false
+PLAN_SHOW_PRICE=true         # keep the plan, hide the number
+PLAN_PRICE=6000              # whole dollars per month
+PLAN_COMPARE_PRICE=7500      # optional struck-through price, 0 = none
+PLAN_NAME=Fractional CTO     # optional rename
 ```
 
-The same three exist for `TIER_FRACTIONAL_*` and `TIER_EMBEDDED_*`, and for
-the one-offs as `ONEOFF_AUDIT_*` and `ONEOFF_MVP_*` where the price is a
+The same switches exist for each add-on as `ADDON_PARALLEL_*`,
+`ADDON_AUDIT_*` and `ADDON_MVP_*`. Parallel is a monthly extra that buys a
+second request at a time; the other two are fixed-scope work whose price is a
 "from" price. `LEAD_MAGNET_ENABLED` and `CONTACT_FORM_ENABLED` remove those
 sections entirely.
 

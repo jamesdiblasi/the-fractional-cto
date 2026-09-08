@@ -9,9 +9,9 @@
  */
 
 export const hero = {
-  headline: 'A CTO *subscription* for growing businesses.',
+  headline: 'A CTO for growing businesses, *without hiring one*.',
   subheadline:
-    'The Fractional CTO replaces unreliable contractors and expensive agencies for one flat monthly fee, with technical decisions delivered so fast you will never go back.',
+    'Send any technical decision and get it handled: the roadmap, the architecture, the hires, the vendors, the board update. Unlimited requests, one flat monthly fee, pause or cancel anytime.',
   primaryCta: 'Book a 15-min intro call',
   secondaryCta: 'See pricing',
   /** Small caption on the founder photo. Uses founder.firstName. */
@@ -98,12 +98,11 @@ export const services = {
 };
 
 export const pricing = {
-  title: 'One subscription, *no surprises*.',
+  title: 'One price, *no surprises*.',
   intro:
-    'Retainers are monthly and pause with a month of notice. Fixed-scope work is quoted before it starts. All prices in Australian dollars.',
-  featuredLabel: 'Most popular',
+    'One monthly fee, unlimited requests, handled one at a time. Pause or cancel with a month of notice. Add-ons are optional, and fixed-scope work is quoted before it starts. All prices in Australian dollars.',
   ctaLabel: 'Get started',
-  quietCtaLabel: 'Talk about this plan',
+  addOnCtaLabel: 'Enquire',
   callouts: [
     {
       title: 'Pause anytime',
@@ -114,7 +113,10 @@ export const pricing = {
       body: 'Not sure yet? Run one month. If it is not the right fit, walk away.',
     },
   ],
-  oneOffTitle: 'Fixed-scope work',
+  addOnTitle: 'Add-ons',
+  addOnIntro: 'Optional, and never required to get started.',
+  recurringSuffix: '/month',
+  fromLabel: 'From',
   priceHidden: 'Priced on the call',
 };
 
