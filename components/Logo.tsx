@@ -1,9 +1,12 @@
 import { cn } from '@/lib/utils';
 
 /**
- * Wordmark: a small square mark beside the name, set in the same italic serif
- * as the accent words in the headlines. Pure text and SVG so it renders
- * identically in the nav and footer. (The Open Graph image draws its own.)
+ * The logo lockup: the percent mark and the wordmark together, as supplied.
+ * public/logo.webp is public/logo.png trimmed of its transparent margin and
+ * resized to 128px tall, which is 4x the height it renders at.
+ *
+ * The artwork is navy and blue, so it needs a light ground. Anywhere dark
+ * would want a reversed file rather than this one.
  */
 export function Logo({
   name,
@@ -13,27 +16,13 @@ export function Logo({
   className?: string;
 }) {
   return (
-    <span className={cn('inline-flex items-center gap-2.5', className)}>
-      <LogoMark className="h-7 w-7" />
-      <span className="font-accent text-[24px] italic leading-none tracking-[-0.01em]">
-        {name}
-      </span>
-    </span>
-  );
-}
-
-export function LogoMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" className={className}>
-      <rect width="32" height="32" rx="9" className="fill-primary" />
-      <path
-        d="M10 21.5 L22 10.5"
-        className="stroke-white"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <circle cx="10.5" cy="11" r="2.6" className="fill-white" />
-      <circle cx="21.5" cy="21" r="2.6" className="fill-white" />
-    </svg>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/logo.webp"
+      alt={name}
+      width={885}
+      height={128}
+      className={cn('h-8 w-auto', className)}
+    />
   );
 }

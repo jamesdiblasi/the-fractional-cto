@@ -33,7 +33,10 @@ if (!executablePath) {
 const browser = await chromium.launch({ executablePath, args: ['--no-sandbox'] });
 try {
   const page = await browser.newPage();
-  await page.goto(pathToFileURL(source).href, { waitUntil: 'load' });
+  await page.goto(pathToFileURL(source).href, { waitUntil: 'networkidle' });
+  // The document sets Figtree and Instrument Serif from Google Fonts. Without
+  // waiting the PDF can render in the fallback stack instead.
+  await page.evaluate(() => document.fonts.ready);
   await page.pdf({
     path: output,
     format: 'A4',

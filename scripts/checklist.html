@@ -3,51 +3,98 @@
 <head>
 <meta charset="utf-8" />
 <title>The CTO Readiness Checklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
 <style>
+  /*
+   * Print styling for the lead magnet, on the same tokens as the site
+   * (app/globals.css): white ground, near-black type, one electric blue, the
+   * warm off-white for panels, and Instrument Serif italic for accents. The
+   * logo is loaded relatively from public/, so this file only renders
+   * correctly from its own directory.
+   */
+  :root {
+    --ink: #0a0a0a;
+    --blue: #0a50ff;
+    --grey: #6e6a66;
+    --panel: #f9f9f8;
+    --line: #e0e0e0;
+  }
   @page { size: A4; margin: 18mm 16mm; }
   * { box-sizing: border-box; }
+  html { color-scheme: light; }
   body {
-    font-family: Inter, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #14181f; margin: 0; font-size: 11.5pt; line-height: 1.5;
+    background: #fff;
+    font-family: Figtree, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink); margin: 0; font-size: 11.5pt; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
   }
-  .cover { display: flex; flex-direction: column; justify-content: space-between; height: 255mm; padding: 14mm; background: #0b0e13; color: #eef1f5; border-radius: 10px; page-break-after: always; }
-  .eyebrow { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 9pt; letter-spacing: .25em; text-transform: uppercase; color: #f59e0b; margin-bottom: 14px; }
-  .cover h1 { font-size: 40pt; line-height: 1.05; margin: 0 0 18px; letter-spacing: -0.02em; }
-  .cover p { font-size: 14pt; color: #b7bfcc; max-width: 130mm; margin: 0; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 13pt; }
-  .mark { width: 24px; height: 24px; border: 2.5px solid #f59e0b; border-radius: 6px; }
-  .foot { font-size: 9.5pt; color: #8b95a5; }
-  h2 { font-size: 16pt; margin: 0 0 4px; letter-spacing: -0.01em; }
-  .intro { color: #4b5563; margin: 0 0 14px; }
-  .section { margin-top: 18px; }
-  .section h3 { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 9pt; letter-spacing: .22em; text-transform: uppercase; color: #b45309; margin: 0 0 8px; }
+  .accent { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-weight: 400; }
+
+  /* Cover ------------------------------------------------------------- */
+  .cover {
+    display: flex; flex-direction: column; justify-content: space-between;
+    height: 255mm; page-break-after: always;
+  }
+  .cover img { width: 62mm; height: auto; }
+  .eyebrow { font-size: 10pt; font-weight: 600; color: var(--blue); margin-bottom: 10px; }
+  .cover h1 {
+    font-size: 42pt; line-height: 1.0; margin: 0; letter-spacing: -0.04em; font-weight: 800;
+  }
+  .cover h1 .accent { letter-spacing: -0.01em; }
+  .cover .lede { font-size: 13.5pt; color: var(--grey); max-width: 125mm; margin: 16px 0 0; line-height: 1.45; }
+  .foot { font-size: 9.5pt; color: var(--grey); border-top: 1px solid var(--line); padding-top: 8px; }
+
+  /* Questions --------------------------------------------------------- */
+  h2 { font-size: 17pt; margin: 0 0 4px; letter-spacing: -0.025em; font-weight: 700; }
+  .intro { color: var(--grey); margin: 0 0 12px; }
+  .section { margin-top: 20px; page-break-inside: avoid; }
+  .section h3 {
+    font-size: 10pt; font-weight: 600; color: var(--blue); margin: 0 0 6px;
+  }
   ol { margin: 0; padding: 0; list-style: none; }
   body { counter-reset: q; }
-  li { display: grid; grid-template-columns: 22px 1fr 60px; gap: 10px; align-items: start; padding: 7px 0; border-top: 1px solid #e5e7eb; }
-  li::before { counter-increment: q; content: counter(q, decimal-leading-zero); font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 9.5pt; color: #9ca3af; padding-top: 2px; }
-  li strong { display: block; }
-  li span { display: block; color: #4b5563; font-size: 10.5pt; }
-  .box { display: flex; gap: 6px; justify-content: flex-end; padding-top: 2px; }
-  .box i { width: 16px; height: 16px; border: 1.5px solid #9ca3af; border-radius: 3px; }
-  .legend { display: flex; gap: 18px; font-size: 9.5pt; color: #6b7280; margin: 6px 0 0; }
-  .legend i { display: inline-block; width: 12px; height: 12px; border: 1.5px solid #9ca3af; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
-  .score { margin-top: 22px; padding: 14px 16px; border: 1px solid #e5e7eb; border-radius: 8px; background: #f9fafb; page-break-inside: avoid; }
-  .score h3 { margin: 0 0 6px; font-size: 12pt; }
-  .score p { margin: 0 0 4px; font-size: 10.5pt; color: #374151; }
-  .cta { margin-top: 18px; padding: 14px 16px; border-radius: 8px; background: #0b0e13; color: #eef1f5; page-break-inside: avoid; }
-  .cta p { margin: 0; font-size: 10.5pt; color: #b7bfcc; }
-  .cta strong { color: #fff; }
-  .cta a { color: #f59e0b; text-decoration: none; }
+  li {
+    display: grid; grid-template-columns: 24px 1fr 62px; gap: 10px; align-items: start;
+    padding: 7px 0; border-top: 1px solid var(--line); page-break-inside: avoid;
+  }
+  li::before {
+    counter-increment: q; content: counter(q, decimal-leading-zero);
+    font-size: 10pt; font-weight: 700; color: #c4c2bf; padding-top: 1px;
+  }
+  li strong { display: block; font-weight: 600; }
+  li span { display: block; color: var(--grey); font-size: 10.5pt; }
+  .box { display: flex; gap: 6px; justify-content: flex-end; padding-top: 3px; }
+  .box i { width: 15px; height: 15px; border: 1.5px solid #b9b6b2; border-radius: 4px; }
+  .legend { display: flex; gap: 18px; font-size: 9.5pt; color: var(--grey); margin: 6px 0 0; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border: 1.5px solid #b9b6b2; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
+
+  /* Scoring and close -------------------------------------------------- */
+  .score {
+    margin-top: 22px; padding: 16px 18px; border: 1px solid var(--line);
+    border-radius: 14px; background: var(--panel); page-break-inside: avoid;
+  }
+  .score h3 { margin: 0 0 8px; font-size: 13pt; letter-spacing: -0.02em; }
+  .score p { margin: 0 0 7px; font-size: 10.5pt; color: #3d3a37; }
+  .score p:last-child { margin-bottom: 0; }
+  .cta {
+    margin-top: 16px; padding: 16px 18px; border-radius: 14px;
+    background: var(--ink); color: #fff; page-break-inside: avoid;
+  }
+  .cta strong { font-size: 12pt; letter-spacing: -0.02em; }
+  .cta p { margin: 6px 0 0; font-size: 10.5pt; color: rgba(255,255,255,0.66); }
+  .cta a { color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.4); }
 </style>
 </head>
 <body>
 
 <section class="cover">
-  <div class="brand"><span class="mark"></span> The Fractional CTO</div>
+  <img src="../public/logo-og.png" alt="The Fractional CTO" />
   <div>
     <div class="eyebrow">Free checklist</div>
-    <h1>The CTO Readiness Checklist</h1>
-    <p>Twenty questions every founder should be able to answer about their technology. Tick the ones you can answer with confidence. The gaps are where a CTO earns their keep.</p>
+    <h1>The CTO Readiness Checklist <span class="accent">twenty questions, twenty minutes.</span></h1>
+    <p class="lede">Every founder should be able to answer these about their own technology. Tick the ones you can. The gaps are where a CTO earns their keep.</p>
   </div>
   <div class="foot">thefractionalcto.com.au</div>
 </section>
@@ -69,7 +116,7 @@
 
 <div class="section">
   <h3>People and delivery</h3>
-  <ol start="6" style="counter-reset: q 6; counter-increment: q -1;">
+  <ol>
     <li><div><strong>If your lead developer resigned tomorrow, could someone else ship a change within a week?</strong><span>This is the single most common risk in a small technical team.</span></div><div class="box"><i></i><i></i><i></i></div></li>
     <li><div><strong>Do you know how long it takes from deciding on a change to customers using it?</strong><span>Days is healthy. Months means something is broken in the process, not the people.</span></div><div class="box"><i></i><i></i><i></i></div></li>
     <li><div><strong>Are you confident you are paying your developers and agencies the right amount for what you get?</strong><span>Not the cheapest. The right amount.</span></div><div class="box"><i></i><i></i><i></i></div></li>
@@ -80,7 +127,7 @@
 
 <div class="section">
   <h3>Platform and risk</h3>
-  <ol start="11" style="counter-reset: q 11; counter-increment: q -1;">
+  <ol>
     <li><div><strong>Do you own every account your business runs on: domain, cloud, source code, app stores, payments?</strong><span>If any of these are in a contractor's name, fix that this week.</span></div><div class="box"><i></i><i></i><i></i></div></li>
     <li><div><strong>If your main system went down on a Monday morning, do you know who would be called and what they would do?</strong><span>An incident plan on one page beats none at all.</span></div><div class="box"><i></i><i></i><i></i></div></li>
     <li><div><strong>Are backups taken, and has anyone ever actually restored from one?</strong><span>An untested backup is a hope, not a backup.</span></div><div class="box"><i></i><i></i><i></i></div></li>
@@ -91,7 +138,7 @@
 
 <div class="section">
   <h3>Product and growth</h3>
-  <ol start="16" style="counter-reset: q 16; counter-increment: q -1;">
+  <ol>
     <li><div><strong>Do you know which features customers actually use, from data rather than from feel?</strong><span>Half of most products goes untouched. Knowing which half changes what you build next.</span></div><div class="box"><i></i><i></i><i></i></div></li>
     <li><div><strong>Could your systems handle ten times the customers without a rebuild?</strong><span>You do not need to be ready for it today. You need to know what would break first.</span></div><div class="box"><i></i><i></i><i></i></div></li>
     <li><div><strong>Have you looked at where AI or automation would remove real work from your team's week?</strong><span>Not a chatbot on the website. The manual, repeated, error-prone work inside the business.</span></div><div class="box"><i></i><i></i><i></i></div></li>
@@ -102,13 +149,14 @@
 
 <div class="score">
   <h3>Scoring</h3>
-  <p><strong>16 to 20 Yes:</strong> You are in good shape. An Advisor engagement, a few hours a week, is usually all you need to stay that way.</p>
-  <p><strong>10 to 15 Yes:</strong> Common for a growing business. The gaps are known and fixable. This is where a Fractional CTO, one or two days a week, pays for itself quickly.</p>
-  <p><strong>Under 10 Yes:</strong> You are carrying more risk than you can see. Start with a technical audit so you know exactly what you are dealing with, then decide what kind of help you need.</p>
+  <p><strong>16 to 20 Yes.</strong> You are in better shape than most. You probably do not need anyone on retainer. A technical audit every twelve months is a cheap way to be sure the picture is still accurate.</p>
+  <p><strong>10 to 15 Yes.</strong> Common for a growing business, and every gap on this list is fixable. This is what the subscription is for: send the decisions as they come up and get them handled, one at a time, for one flat monthly fee.</p>
+  <p><strong>Under 10 Yes.</strong> You are carrying more risk than you can see, and guessing at which risk to fix first is expensive. Start with a technical audit so you know exactly what you are dealing with, then decide what kind of help you need.</p>
 </div>
 
 <div class="cta">
-  <p><strong>Want a second opinion on your answers?</strong> Book a free thirty-minute discovery call. No pitch, just a clearer picture of where your technology stands. <a href="https://thefractionalcto.com.au/#contact">thefractionalcto.com.au</a></p>
+  <strong>Want a second opinion on your answers?</strong>
+  <p>Book a fifteen-minute call. No slides and no pitch, just a clearer picture of where your technology stands. <a href="https://thefractionalcto.com.au/#booking">thefractionalcto.com.au</a></p>
 </div>
 
 </body>
