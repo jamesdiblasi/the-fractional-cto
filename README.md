@@ -72,7 +72,7 @@ nothing needs to be set to get the full page.
 ```
 PLAN_ENABLED=true            # hide the plan with false
 PLAN_SHOW_PRICE=true         # keep the plan, hide the number
-PLAN_PRICE=6000              # whole dollars per month
+PLAN_PRICE=10000             # whole dollars per month
 PLAN_COMPARE_PRICE=7500      # optional struck-through price, 0 = none
 PLAN_NAME=Fractional CTO     # optional rename
 ```

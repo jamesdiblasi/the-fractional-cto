@@ -49,7 +49,7 @@ export const article: Article = {
     {
       kind: 'callout',
       title: 'The comparison that matters',
-      text: 'A full-time CTO in Australia costs 300,000 to 400,000 dollars in year one once salary, superannuation, equity and recruiter fees are counted. A 6,000 dollar monthly retainer is 72,000 dollars a year, cancellable on a month of notice.',
+      text: 'A full-time CTO in Australia costs 300,000 to 400,000 dollars in year one once salary, superannuation, equity and recruiter fees are counted. A 10,000 dollar monthly retainer is 120,000 dollars a year, cancellable on a month of notice.',
     },
     { kind: 'h2', text: 'What moves the price' },
     {

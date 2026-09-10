@@ -103,7 +103,7 @@ function readPlan(): Plan {
     name: str(env.PLAN_NAME, PLAN_DEFAULTS.name),
     enabled: bool(env.PLAN_ENABLED, true),
     showPrice: bool(env.PLAN_SHOW_PRICE, true),
-    price: num(env.PLAN_PRICE, 6000),
+    price: num(env.PLAN_PRICE, 10000),
     comparePrice: num(env.PLAN_COMPARE_PRICE, 0),
   };
 }
