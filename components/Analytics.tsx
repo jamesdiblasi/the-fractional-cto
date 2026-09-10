@@ -5,7 +5,7 @@ import Script from 'next/script';
  * both supported; set one or both:
  *
  *   NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
- *   NEXT_PUBLIC_PLAUSIBLE_DOMAIN=thefractionalcto.com.au
+ *   NEXT_PUBLIC_PLAUSIBLE_DOMAIN=thefractionalcto.au
  *
  * These are build-time values (NEXT_PUBLIC_), so set them before `next build`.
  */

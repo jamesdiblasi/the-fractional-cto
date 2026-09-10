@@ -116,6 +116,30 @@ The site runs on the `the-fractional-cto` web app in resource group
 startup command `node server.js`). Its default host is
 https://the-fractional-cto.azurewebsites.net.
 
+### The domain
+
+`thefractionalcto.au` is registered at GoDaddy (registered 10 September 2026,
+auto-renewing) and its DNS is served by GoDaddy's nameservers. Four records
+point it at the App Service, the same shape every other site in this
+subscription uses:
+
+| Type | Name | Value |
+| --- | --- | --- |
+| A | `@` | `13.77.50.113` (the app's inbound IP) |
+| CNAME | `www` | `the-fractional-cto.azurewebsites.net` |
+| TXT | `asuid` | the app's `customDomainVerificationId` |
+| TXT | `asuid.www` | the same value |
+
+The two `asuid` records are what Azure checks before it will accept the
+hostname; without them `az webapp config hostname add` fails. The apex has to
+be an A record because GoDaddy will not serve a CNAME at the zone root, so if
+the app's inbound IP ever changes — a different plan, a redeploy into another
+scale unit — that A record has to change with it. Read the current one with
+`az webapp show -g leadgen -n the-fractional-cto --query inboundIpAddress`.
+
+Both hostnames carry a free App Service managed certificate, renewed by Azure.
+`httpsOnly` is on, so plain HTTP is redirected.
+
 Every push to `main` runs `.github/workflows/deploy.yml`, which lints,
 typechecks, builds and deploys `.next/standalone`. It authenticates with the
 OIDC federated credential Azure's Deployment Center created (the three
@@ -129,5 +153,6 @@ restart, no rebuild needed.
 - Replace the bio and photo in `lib/content.ts` and `public/`.
 - Set `BOOKING_URL`.
 - Set the Mailjet keys and validate the sender.
-- Point the domain at the App Service. `thefractionalcto.com.au`, `.au` and
-  `.co` were all available on 6 September 2026; `.com` was taken.
+- Set up mail for `@thefractionalcto.au`. The address in `CONTACT_EMAIL` does
+  not exist yet, and Mailjet needs the domain validated before either form can
+  send.

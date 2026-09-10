@@ -161,7 +161,7 @@ function readAddOns(): AddOn[] {
 
 export function getSiteConfig(): SiteConfig {
   const env = process.env;
-  const siteUrl = str(env.SITE_URL, 'https://thefractionalcto.com.au').replace(
+  const siteUrl = str(env.SITE_URL, 'https://thefractionalcto.au').replace(
     /\/$/,
     '',
   );
@@ -173,7 +173,7 @@ export function getSiteConfig(): SiteConfig {
       'A CTO for growing businesses, without hiring one. Unlimited requests, one flat monthly fee.',
     ),
     bookingUrl: str(env.BOOKING_URL, '#booking'),
-    contactEmail: str(env.CONTACT_EMAIL, 'hello@thefractionalcto.com.au'),
+    contactEmail: str(env.CONTACT_EMAIL, 'hello@thefractionalcto.au'),
     currency: str(env.CURRENCY, 'AUD'),
     plan: readPlan(),
     addOns: readAddOns(),
