@@ -2,8 +2,8 @@
  * Site configuration, read from the environment at request time.
  *
  * Everything an owner might want to flip without a redeploy lives here:
- * the plan price, which add-ons show and what they cost, the booking link,
- * and the analytics IDs. app/page.tsx is
+ * the plan price, which add-ons show and what they cost, the booking link
+ * and mailbox, and the analytics IDs. app/page.tsx is
  * rendered dynamically so a change to an App Service setting takes effect on
  * the next request rather than the next build.
  *
@@ -64,6 +64,10 @@ export interface SiteConfig {
   siteUrl: string;
   tagline: string;
   bookingUrl: string;
+  /** True once BOOKING_MAILBOX is set and the panel can offer real times. */
+  bookingEnabled: boolean;
+  /** Cloudflare Turnstile site key for the booking form. Public. Null = off. */
+  turnstileSiteKey: string | null;
   contactEmail: string;
   currency: string;
   plan: Plan;
@@ -173,6 +177,8 @@ export function getSiteConfig(): SiteConfig {
       'A CTO for growing businesses, without hiring one. Unlimited requests, one flat monthly fee.',
     ),
     bookingUrl: str(env.BOOKING_URL, '#booking'),
+    bookingEnabled: Boolean(env.BOOKING_MAILBOX?.trim()),
+    turnstileSiteKey: env.TURNSTILE_SITE_KEY?.trim() || null,
     contactEmail: str(env.CONTACT_EMAIL, 'hello@thefractionalcto.au'),
     currency: str(env.CURRENCY, 'AUD'),
     plan: readPlan(),

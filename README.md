@@ -38,6 +38,8 @@ npm run build
 | Colours and type | `app/globals.css` (tokens), `tailwind.config.ts` |
 | Page sections | `components/sections/*` |
 | Keyword articles | `lib/articles/*.ts`, rendered by `app/articles` |
+| Booking panel | `components/sections/Booking.tsx`; rules in `lib/booking.ts`, Graph calls in `lib/graph.ts`, routes in `app/api/availability` and `app/api/book` |
+| Booking setup (Azure, Exchange) | `scripts/setup-booking.ps1` |
 | Contact form email | `app/api/contact/route.ts` via `lib/mailjet.ts` |
 | Checklist download | `app/api/checklist/route.ts`, PDF in `public/` |
 | Checklist source | `scripts/checklist.html`, rebuild with `npm run checklist:pdf` |
@@ -86,11 +88,46 @@ sections entirely.
 The home page renders per request, so changing an App Service setting and
 restarting the app is enough. No rebuild.
 
-## Booking link
+## Booking
 
-`BOOKING_URL` is where every "Book a discovery call" button goes. Until it
-is set, the buttons scroll to the contact form. Set it to the Microsoft
-Bookings page URL once that is created.
+The booking panel is backed by the `james@diblasi.com.au` calendar through
+Microsoft Graph. Free/busy on that mailbox decides which times are open, and
+a booking is an event written onto it with the visitor as attendee, so Graph
+sends the invite (with a Teams link) and a decline shows up in Outlook like
+any other. There is no second calendar and no database to keep in sync.
+
+The site authenticates as the App Service's **managed identity**. No secret
+is stored anywhere: Azure mints a short-lived token inside the process, the
+browser only ever talks to `/api/availability` and `/api/book`, and the
+identity is fenced to the one mailbox by an Exchange application access
+policy. One-time setup, as a tenant admin:
+
+```powershell
+./scripts/setup-booking.ps1 -Mailbox james@diblasi.com.au
+```
+
+then set `BOOKING_MAILBOX` on the web app and restart. Until it is set the
+panel offers email instead of a calendar. The hours, days, slot length, lead
+time and horizon are all `BOOKING_*` settings, see `.env.example`.
+
+What the public surface can do, and no more: read which times are open
+(the same thing any booking page shows), and create one event in a slot the
+server generated and re-checked against the live calendar the moment before
+writing. Subject, length, attendees and the meeting link are decided in
+`lib/booking.ts`. A double submit is de-duplicated by Graph's
+`transactionId`. Every booking carries the Outlook category `Site booking`,
+so a clean-up is one filter. Protection against junk is the honeypot, a
+per-address rate limit (three bookings per ten minutes), and optionally
+Cloudflare Turnstile (`TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`).
+
+Locally there is no managed identity. Either leave `BOOKING_MAILBOX` unset
+and work on the email fallback, or create an app registration with the same
+permission and policy and put `AZURE_TENANT_ID`, `AZURE_CLIENT_ID` and
+`AZURE_CLIENT_SECRET` in `.env.local`; `DefaultAzureCredential` picks those
+up. Bookings made that way are real.
+
+`BOOKING_URL` still exists: set it to an external URL (Microsoft Bookings,
+Calendly) and every "Book a call" button goes there instead of the panel.
 
 ## Email
 
@@ -151,7 +188,7 @@ restart, no rebuild needed.
 
 - Replace the stats in `lib/content.ts`.
 - Replace the bio and photo in `lib/content.ts` and `public/`.
-- Set `BOOKING_URL`.
+- Run `scripts/setup-booking.ps1` and set `BOOKING_MAILBOX`.
 - Set the Mailjet keys and validate the sender.
 - Set up mail for `@thefractionalcto.au`. The address in `CONTACT_EMAIL` does
   not exist yet, and Mailjet needs the domain validated before either form can

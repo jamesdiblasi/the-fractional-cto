@@ -11,8 +11,10 @@ name: Deploy to Azure App Service
 # because it deployed the raw repository, and the app's startup command
 # (`node server.js`) expects the standalone output instead.
 #
-# Runtime settings (SITE_URL, BOOKING_URL, MAILJET_*, the TIER_* switches)
-# live in the web app's application settings, see .env.example. The analytics
+# Runtime settings (SITE_URL, BOOKING_*, MAILJET_*, the pricing switches)
+# live in the web app's application settings, see .env.example. The booking
+# panel authenticates to Graph as the web app's managed identity, set up
+# once by scripts/setup-booking.ps1; nothing about it lives in this workflow. The analytics
 # IDs are build-time and come from repository variables.
 
 on:

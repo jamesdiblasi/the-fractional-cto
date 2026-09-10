@@ -6,6 +6,9 @@ const nextConfig = {
   output: 'standalone',
   images: { unoptimized: true },
   poweredByHeader: false,
+  // Leave the Azure SDK as a plain Node dependency rather than bundling it;
+  // the standalone output traces and copies it.
+  experimental: { serverComponentsExternalPackages: ['@azure/identity'] },
 };
 
 module.exports = nextConfig;
