@@ -9,10 +9,12 @@
   a Global Administrator (or Privileged Role Administrator plus Exchange
   Administrator) for the diblasi.com.au tenant. Every step is idempotent.
 
-  Needs: Az CLI (az login), Microsoft.Graph and ExchangeOnlineManagement
-  PowerShell modules.
+  Needs: Az CLI (az login, any identity that can write the web app), and
+  the Microsoft.Graph.Authentication and ExchangeOnlineManagement modules.
+  The Graph and Exchange steps each open a browser sign-in; use the admin
+  account there.
 
-    Install-Module Microsoft.Graph.Applications, ExchangeOnlineManagement -Scope CurrentUser
+    Install-Module Microsoft.Graph.Authentication, ExchangeOnlineManagement -Scope CurrentUser
 
 .PARAMETER Mailbox
   The mailbox the site books into. Must match BOOKING_MAILBOX on the web app.
@@ -31,23 +33,29 @@ $identity = az webapp identity assign -g $ResourceGroup -n $WebApp | ConvertFrom
 $principalId = $identity.principalId
 Write-Host "  principalId $principalId"
 
-# 2. Calendars.ReadWrite (application) on that identity.
+# 2. Calendars.ReadWrite (application) on that identity. Plain Graph calls
+#    through Invoke-MgGraphRequest, so only the Authentication module is
+#    needed.
 Write-Host 'Granting Graph Calendars.ReadWrite to the identity...'
+Import-Module Microsoft.Graph.Authentication
 Connect-MgGraph -Scopes 'AppRoleAssignment.ReadWrite.All', 'Application.Read.All' -NoWelcome
-$graphSp = Get-MgServicePrincipal -Filter "appId eq '00000003-0000-0000-c000-000000000000'"
-$role = $graphSp.AppRoles | Where-Object {
-  $_.Value -eq 'Calendars.ReadWrite' -and $_.AllowedMemberTypes -contains 'Application'
+$graphSp = (Invoke-MgGraphRequest -Method GET -Uri `
+  "v1.0/servicePrincipals?`$filter=appId eq '00000003-0000-0000-c000-000000000000'").value[0]
+$role = $graphSp.appRoles | Where-Object {
+  $_.value -eq 'Calendars.ReadWrite' -and $_.allowedMemberTypes -contains 'Application'
 }
-$existing = Get-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $principalId |
-  Where-Object { $_.AppRoleId -eq $role.Id -and $_.ResourceId -eq $graphSp.Id }
+$assignments = (Invoke-MgGraphRequest -Method GET -Uri `
+  "v1.0/servicePrincipals/$principalId/appRoleAssignments").value
+$existing = $assignments | Where-Object { $_.appRoleId -eq $role.id -and $_.resourceId -eq $graphSp.id }
 if ($existing) {
   Write-Host '  already granted'
 } else {
-  New-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $principalId `
-    -PrincipalId $principalId -ResourceId $graphSp.Id -AppRoleId $role.Id | Out-Null
+  Invoke-MgGraphRequest -Method POST -Uri "v1.0/servicePrincipals/$principalId/appRoleAssignments" `
+    -Body @{ principalId = $principalId; resourceId = $graphSp.id; appRoleId = $role.id } | Out-Null
   Write-Host '  granted'
 }
-$appId = (Get-MgServicePrincipal -ServicePrincipalId $principalId).AppId
+$appId = (Invoke-MgGraphRequest -Method GET -Uri "v1.0/servicePrincipals/$principalId").appId
+Write-Host "  appId $appId"
 
 # 3. Fence the identity to the one mailbox. Without this, Calendars.ReadWrite
 #    reaches every mailbox in the tenant.
