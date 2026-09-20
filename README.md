@@ -141,11 +141,22 @@ Without Mailjet configured the contact form shows a friendly error naming
 the email address, and the checklist form still hands over the download
 link. Both are logged as errors on the server so the gap is visible.
 
-## Analytics
+## Analytics and search
 
 Set `NEXT_PUBLIC_GA_MEASUREMENT_ID` and/or `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`
 before `next build`. Nothing loads when they are unset. These are the only
 build-time variables; in the workflow they come from repository variables.
+
+The GA4 property is "The Fractional CTO" (property `555078917`, web stream
+`15809621877`, measurement ID `G-LPW096FJPE`) in the Google account
+jsdiblasi@gmail.com. The measurement ID is the repository variable
+`NEXT_PUBLIC_GA_MEASUREMENT_ID`; changing it needs a rebuild.
+
+Search Console has the domain property `thefractionalcto.au`, verified by
+the `google-site-verification` TXT record at the zone apex in Azure DNS.
+Leave that record in place or the verification lapses. `sitemap.xml` is
+submitted there; that is how the articles get found, since nothing links
+to them.
 
 ## Deploying to Azure App Service
 
