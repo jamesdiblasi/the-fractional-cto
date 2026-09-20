@@ -40,6 +40,7 @@ npm run build
 | Keyword articles | `lib/articles/*.ts`, rendered by `app/articles` |
 | Booking panel | `components/sections/Booking.tsx`; rules in `lib/booking.ts`, Graph calls in `lib/graph.ts`, routes in `app/api/availability` and `app/api/book` |
 | Booking setup (Azure, Exchange) | `scripts/setup-booking.ps1` |
+| Mailbox setup (domain, DKIM, shared mailbox) | `scripts/setup-mailbox.ps1` |
 | Contact form email | `app/api/contact/route.ts` via `lib/mailjet.ts` |
 | Checklist download | `app/api/checklist/route.ts`, PDF in `public/` |
 | Checklist source | `scripts/checklist.html`, rebuild with `npm run checklist:pdf` |
@@ -156,9 +157,12 @@ https://the-fractional-cto.azurewebsites.net.
 ### The domain
 
 `thefractionalcto.au` is registered at GoDaddy (registered 10 September 2026,
-auto-renewing) and its DNS is served by GoDaddy's nameservers. Four records
-point it at the App Service, the same shape every other site in this
-subscription uses:
+auto-renewing). DNS is the Azure DNS zone `thefractionalcto.au` in resource
+group `leadgen`, delegated from GoDaddy on 20 September 2026, the same
+arrangement as every other site in this subscription. Change records with
+`az network dns record-set`, not at GoDaddy.
+
+The site records:
 
 | Type | Name | Value |
 | --- | --- | --- |
@@ -169,13 +173,27 @@ subscription uses:
 
 The two `asuid` records are what Azure checks before it will accept the
 hostname; without them `az webapp config hostname add` fails. The apex has to
-be an A record because GoDaddy will not serve a CNAME at the zone root, so if
-the app's inbound IP ever changes — a different plan, a redeploy into another
-scale unit — that A record has to change with it. Read the current one with
+be an A record because there is no CNAME at a zone root, so if the app's
+inbound IP ever changes — a different plan, a redeploy into another scale
+unit — that A record has to change with it. Read the current one with
 `az webapp show -g leadgen -n the-fractional-cto --query inboundIpAddress`.
+
+The mail records (MX, SPF, autodiscover, DKIM selectors, DMARC) point at
+Exchange Online in the diblasi.com.au tenant; see "The mailbox".
 
 Both hostnames carry a free App Service managed certificate, renewed by Azure.
 `httpsOnly` is on, so plain HTTP is redirected.
+
+### The mailbox
+
+`hello@thefractionalcto.au` is a shared mailbox in the same Microsoft 365
+tenant as the booking calendar, with `james@diblasi.com.au` holding full
+access and Send As. `scripts/setup-mailbox.ps1` is the one-time setup: adds
+the domain to the tenant, verifies it through the Azure DNS zone, enables
+DKIM, creates the mailbox and grants the permissions. It is idempotent. SPF
+includes Mailjet as well as Exchange because the site's forms send as
+`hello@` through Mailjet; Mailjet's own domain validation is a separate step
+in the Mailjet account.
 
 Every push to `main` runs `.github/workflows/deploy.yml`, which lints,
 typechecks, builds and deploys `.next/standalone`. It authenticates with the
@@ -190,6 +208,5 @@ restart, no rebuild needed.
 - Replace the bio and photo in `lib/content.ts` and `public/`.
 - Run `scripts/setup-booking.ps1` and set `BOOKING_MAILBOX`.
 - Set the Mailjet keys and validate the sender.
-- Set up mail for `@thefractionalcto.au`. The address in `CONTACT_EMAIL` does
-  not exist yet, and Mailjet needs the domain validated before either form can
-  send.
+- Run `scripts/setup-mailbox.ps1` so `hello@thefractionalcto.au` exists, then
+  validate the domain in Mailjet so the forms can send as it.
