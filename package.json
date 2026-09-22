@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "checklist:pdf": "node scripts/build-checklist.mjs"
+    "checklist:pdf": "node scripts/build-checklist.mjs",
+    "ads:csv": "node scripts/build-google-ads.mjs"
   },
   "dependencies": {
     "@azure/identity": "^4.13.2",

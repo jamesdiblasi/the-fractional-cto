@@ -5,6 +5,7 @@ import { Loader2, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input, Label, Textarea, Select } from '@/components/ui/input';
 import { enquiry } from '@/lib/content';
+import { track } from '@/lib/analytics';
 
 type State =
   | { status: 'idle' }
@@ -36,6 +37,7 @@ export function Contact({ formEnabled }: { formEnabled: boolean }) {
         throw new Error(json.error ?? 'Something went wrong. Please try again.');
       }
       setState({ status: 'done' });
+      track('enquiry', { interest: String(data.interest ?? '') });
       form.reset();
     } catch (err) {
       setState({

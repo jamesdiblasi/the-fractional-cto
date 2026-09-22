@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input, Label } from '@/components/ui/input';
 import { Eyebrow } from '@/components/Section';
 import { leadMagnet } from '@/lib/content';
+import { track } from '@/lib/analytics';
 
 type State =
   | { status: 'idle' }
@@ -39,6 +40,7 @@ export function LeadMagnet() {
         throw new Error(json.error ?? 'Something went wrong. Please try again.');
       }
       setState({ status: 'done', url: json.url ?? leadMagnet.file });
+      track('checklist_download');
       form.reset();
     } catch (err) {
       setState({

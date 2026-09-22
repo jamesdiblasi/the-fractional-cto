@@ -44,6 +44,7 @@ npm run build
 | Contact form email | `app/api/contact/route.ts` via `lib/mailjet.ts` |
 | Checklist download | `app/api/checklist/route.ts`, PDF in `public/` |
 | Checklist source | `scripts/checklist.html`, rebuild with `npm run checklist:pdf` |
+| Google Ads campaign | `scripts/build-google-ads.mjs` (keywords, negatives, ad copy), plan in `docs/google-ads/README.md`, import files via `npm run ads:csv` |
 | SEO | `app/layout.tsx` metadata, `app/opengraph-image.tsx`, `app/sitemap.ts`, `app/robots.ts`, JSON-LD in `app/page.tsx` |
 | Azure deploy | `.github/workflows/deploy.yml` |
 

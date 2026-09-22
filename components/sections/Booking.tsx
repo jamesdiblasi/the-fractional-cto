@@ -13,6 +13,7 @@ import { booking } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Input, Label, Textarea } from '@/components/ui/input';
 import { Turnstile } from '@/components/Turnstile';
+import { track } from '@/lib/analytics';
 
 /**
  * The booking panel: a month picker beside a list of times, on the dark
@@ -420,6 +421,9 @@ function BookingForm({
         throw new Error(json.error ?? 'Something went wrong. Please try again.');
       }
       setState({ status: 'done', start });
+      track('book_call', {
+        lead_days: Math.round((start.getTime() - Date.now()) / 86_400_000),
+      });
     } catch (err) {
       setState({
         status: 'error',
